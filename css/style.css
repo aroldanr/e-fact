@@ -12,8 +12,10 @@ p {margin: 0;}
 html, body{
   	font-family: 'Cabin', sans-serif;
     font-size: 100%;
-  	overflow-x: hidden;
-	background: #f9f9f9;
+    height: 100%;
+    width: 100%;
+  	/* overflow-x: hidden; */
+	  background: #f9f9f9;
 }
 body a{
 	transition:0.5s all;
@@ -1838,7 +1840,8 @@ ul.dropdown-menu.drp-mnu li a i {
 .main-content {
     margin-left: 200px;
     background:#F8F8F8;
-    min-height: 1000px;
+    /* height: 2800px; */
+    /* overflow: auto; */
 }
 .main-content2{
 	min-height: 1250px !important;

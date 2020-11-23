@@ -1621,7 +1621,7 @@ ul.dropdown-menu {
 .wrapper-dropdown-3 .dropdown li a:hover span.task-desc {
 	color:#65cea7;
 }
-.progress .bar {
+/* .progress .bar {
 		z-index: 2;
 		height:15px; 
 		font-size: 12px;
@@ -1636,7 +1636,7 @@ ul.dropdown-menu {
 		  -moz-transition: width 0.6s ease;
 		  -o-transition: width 0.6s ease;
 		  transition: width 0.6s ease;
-	}
+	} */
 .progress-striped .yellow{
 	background:#f0ad4e;
 } 
@@ -1837,7 +1837,7 @@ ul.dropdown-menu.drp-mnu li a i {
 }
 .main-content {
     margin-left: 200px;
-    background:#F8F8F8;
+    background:#ffffff;
     min-height: 1000px;
 }
 .main-content2{
@@ -3383,12 +3383,12 @@ h4.content-box-header{
 	-o-border-radius:3px 3px 0px 0px;
 	-ms-border-radius:3px 3px 0px 0px;
 }
-.panel {
+/* .panel {
     border: none !important; 
     border-radius:none !important;
     -webkit-box-shadow: none !important;
      box-shadow:none !important; 
-}
+} */
 .widget-footer.clearfix {
   margin: 1em 0 0 0;
 }
@@ -3523,7 +3523,7 @@ div.checker input {
   border: 1px solid #DCE1E4;
   border-radius: 0;
 }
-.note-editor .note-codable {
+/* .note-editor .note-codable {
   display: none;
   width: 100%;
   padding: 10px;
@@ -3541,7 +3541,7 @@ div.checker input {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   resize: none;
-}
+} */
 i.icon_8{
   font-size: 13px;
   color: #555;
@@ -4588,9 +4588,9 @@ li.nbs-flexisel-item {
 .panel-default {
     border: none;
 }
-.panel-group .panel-heading + .panel-collapse > .panel-body, .panel-group .panel-heading + .panel-collapse > .list-group {
+/* .panel-group .panel-heading + .panel-collapse > .panel-body, .panel-group .panel-heading + .panel-collapse > .list-group {
     border: none;
-}
+} */
 .asd {
     padding: 1em 0;
 	text-transform:capitalize;
@@ -4628,7 +4628,7 @@ li.nbs-flexisel-item {
 }
 /*-- //forms --*/
 /*-- typo --*/
-span.badge1 {
+/* span.badge1 {
     min-width: 3rem;
     padding: 2px 9px;
     text-align: center;
@@ -4641,7 +4641,7 @@ span.badge1 {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     border-radius: 2px;
-}
+} */
 /*-- //typo --*/
 /*-- sign-in --*/
 .sign-in-up{

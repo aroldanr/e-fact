@@ -4,14 +4,9 @@
 $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 
 ?>
-<head>
+<head> 
+  
 
-  <title>Bootstrap Example</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
 </br>
@@ -39,10 +34,19 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 
           $consecutivo = substr($resul['numero'], 0, 4);
 
-          $sumaconsecutivo = intval($consecutivo + 1)
+          $sumaconsecutivo = intval($consecutivo + 1);
+          $count=2; $digits = 10; $start= $resul['numero'];
+          
+        
+            
+            for ($n = $start; $n < $start + $count; $n++) {
+              $result= str_pad($n, $digits, "0", STR_PAD_LEFT);
+            }
+                     
+          
      
         ?>
-        <td><input id="txtNoFactura" value="<?php echo $resul['numero']; ?>" class="form-control"></td>        
+        <td><input id="txtNoFactura" value="<?php echo $result; ?>" class="form-control"></td>        
       </tr>
       <tr>
         <td>Fecha</td>
@@ -103,6 +107,60 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
     </tbody>
   </table>
 </div>
+
+<div class="container">
+  <h2>Detalle Ventas por productos</h2>
+  <div class="panel-group">
+    <div class="panel panel-primary">
+      <div class="panel-heading">Registros marcados con un * son requeridos</div>
+      <div class="panel-body">
+
+         <form>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputEmail4">Email</label>
+      <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="inputPassword4">Password</label>
+      <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputAddress">Address</label>
+    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+  </div>
+  <div class="form-group">
+    <label for="inputAddress2">Address 2</label>
+    <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputCity">City</label>
+      <input type="text" class="form-control" id="inputCity">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="inputState">State</label>
+      <select id="inputState" class="form-control">
+        <option selected>Choose...</option>
+        <option>...</option>
+      </select>
+    </div>
+    <div class="form-group col-md-2">
+      <label for="inputZip">Zip</label>
+      <input type="text" class="form-control" id="inputZip">
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Guardar</button>
+</form>
+
+      </div>
+     </div>
+
+  </div>
+</div>
+
+
 <?php  
 require_once 'footer.php'; 
 

@@ -5,7 +5,7 @@ include_once 'conexion.php';
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>eFact :: <?php
+<title>eFact: <?php
 
 echo $EMPRESA;
 ?></title>

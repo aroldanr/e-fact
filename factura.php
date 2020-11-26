@@ -71,7 +71,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 
 
           ?>
-          <td><input id="txtNoFactura" value="<?php echo $result; ?>" class="form-control"></td>
+          <td><input id="txtNoFactura" value="<?php echo $result; ?>" class="form-control" readonly></td>
         </tr>
         <tr>
           <td>Fecha</td>
@@ -80,10 +80,10 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
         <tr>
           <td>Cliente</td>
           <td>
-            <select name="dropcliente" id="dropcliente" class="form-control">
+            <select id="dropcliente" style="width: 100%" class="js-example-basic-single js-states form-control" name="dropcliente">
 
               <?php
-              // include 'conexion.php';
+              // include 'conexion.php';  
 
               $clientedata = "SELECT concat(nombre1_cliente,' ',nombre2_cliente,' ',apellido1_cliente,' ',apellido2_cliente) as nombre_cliente FROM cliente";
               $Objcliente = mysqli_query($cnn, $clientedata) or die(mysql_error($cnn));
@@ -100,7 +100,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
         <tr>
           <td>Vendedor</td>
           <td>
-            <select name="dropvendedor" id="dropvendedor" class="form-control">
+            <select name="dropvendedor" id="dropvendedor" style="width: 100%" class="js-example-basic-single js-states form-control">
 
               <?php
               // include 'conexion.php';
@@ -180,5 +180,11 @@ require_once 'footer.php';
 
 ?>
 
+<script>
+$(document).ready(function() {
+    $('#dropcliente').select2();
+    $('#dropvendedor').select2();
+});
+</script>
 
 </html>

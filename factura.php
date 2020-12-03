@@ -85,13 +85,13 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
               <?php
               // include 'conexion.php';  
 
-              $clientedata = "SELECT concat(nombre1_cliente,' ',nombre2_cliente,' ',apellido1_cliente,' ',apellido2_cliente) as nombre_cliente FROM cliente";
+              $clientedata = "SELECT concat(nombre1_cliente,' ',nombre2_cliente,' ',apellido1_cliente,' ',apellido2_cliente) as nombre_cliente, id FROM cliente";
               $Objcliente = mysqli_query($cnn, $clientedata) or die(mysql_error($cnn));
 
               ?>
 
               <?php foreach ($Objcliente as $opciones) : ?>
-                <option class="form-control" value="<?php echo $opciones['nombre_cliente'] ?>"><?php echo $opciones['nombre_cliente'] ?></option>
+                <option class="form-control" value="<?php echo $opciones['id'] ?>"><?php echo $opciones['nombre_cliente'] ?></option>
               <?php endforeach ?>
 
             </select>
@@ -105,12 +105,12 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
               <?php
               // include 'conexion.php';
 
-              $vendedordata = "SELECT nombre_vendedor FROM vendedor";
+              $vendedordata = "SELECT nombre_vendedor,id FROM vendedor";
               $Objvendedor = mysqli_query($cnn, $vendedordata) or die(mysql_error($cnn));
 
               ?>
               <?php foreach ($Objvendedor as $itemsvendedor) : ?>
-                <option class="form-control" value="<?php echo $itemsvendedor['nombre_vendedor'] ?>"><?php echo $itemsvendedor['nombre_vendedor'] ?></option>
+                <option class="form-control" value="<?php echo $itemsvendedor['id'] ?>"><?php echo $itemsvendedor['nombre_vendedor'] ?></option>
               <?php endforeach ?>
             </select>
           </td>
@@ -141,28 +141,79 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
         <div class="panel-body">
 
           <form>
+
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Campo</th>
+                  <th>Valor</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Codigo de producto</td>
+                  <td>
+                    <div class="input-group" style="margin:0em">
+                      <input type="number" class="form-control" id="txtcodigoproducto" placeholder="Codigo de Producto">
+                      <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit" onclick="loadproductinfo();">
+                          <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                      </div>
+                    </div>
+
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Cantidad</td>
+
+                  <td>
+                    <input id="txtcantidad" type="number" class="form-control" name="txtcantidad" placeholder="Cantidad">
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Precio</td>
+                  <td><input type="number" class="form-control" placeholder="Precio" id="txtprecio"></td>
+                </tr>
+
+                <tr>
+                  <td>Descuento</td>
+                  <td><input type="number" class="form-control" placeholder="Descuento" id="txtdescuento"></td>
+                </tr>
+
+              </tbody>
+
+            </table>
+
+            <table id="table_productos" class="display">
+              <thead>
+                <tr>
+                  <th>Column 1</th>
+                  <th>Column 2</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Row 1 Data 1</td>
+                  <td>Row 1 Data 2</td>
+                </tr>
+                <tr>
+                  <td>Row 2 Data 1</td>
+                  <td>Row 2 Data 2</td>
+                </tr>
+              </tbody>
+            </table>
+
+            </br></br>
             <div class="form-row">
               <div class="col-md-6">
-                <div class="input-group" style="margin:0em">
-                  <input type="number" class="form-control" placeholder="Codigo de Producto">
-                  <div class="input-group-btn">
-                    <button class="btn btn-default" type="submit">
-                      <i class="glyphicon glyphicon-search"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="input-group">                  
-                  <input id="msg" type="text" class="form-control" name="msg" placeholder="Additional Info">
-                  <span class="input-group-addon">Text</span>
-                </div>
+                <button type="submit" class="btn btn-primary">Guardar</button>
               </div>
 
             </div>
 
-            <button type="submit" class="btn btn-primary">Guardar</button>
           </form>
 
         </div>
@@ -171,7 +222,35 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
     </div>
   </div>
 
+  <script>
+    $(document).ready(function() {
+      $('#table_productos').DataTable();
+    });
+  </script>
 
+  <script>
+    function loadproductinfo() {
+      var dato = $('#txtcodigoproducto').val();
+      $.ajax({
+        type: "POST",
+        url: 'factura.php',
+        data: {
+          action: 'call_this'
+        },
+        success: function(html) {
+          alert(html);
+        }
+
+      });
+    }
+  </script>
+
+<!-- <?php
+  if($_POST['action'] == 'call_this') {
+    
+  }
+  
+  ?>  -->
 
 </body>
 
@@ -181,10 +260,10 @@ require_once 'footer.php';
 ?>
 
 <script>
-$(document).ready(function() {
+  $(document).ready(function() {
     $('#dropcliente').select2();
     $('#dropvendedor').select2();
-});
+  });
 </script>
 
 </html>

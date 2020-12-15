@@ -14,7 +14,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 </head>
 
 <body>
-  <form style="padding-top: 5rem;">
+  <!-- <form style="padding-top: 5rem;">
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="inputEmail4">Email</label>
@@ -59,7 +59,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
       </div>
     </div>
     <button type="submit" class="btn btn-primary">Sign in</button>
-  </form>
+  </form> -->
 
 
   <div class="container">

@@ -168,8 +168,14 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
                 </tr>
 
                 <tr>
-                  <td>Cantidad</td>
+                  <td>Nombre</td>
+                  <td>
+                    <input id="txtnombreP" type="text" class="form-control" name="txtnombreP" placeholder="Nombre">
+                  </td>
+                </tr>
 
+                <tr>
+                  <td>Cantidad</td>
                   <td>
                     <input id="txtcantidad" type="number" class="form-control" name="txtcantidad" placeholder="Cantidad">
                   </td>
@@ -177,14 +183,13 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 
                 <tr>
                   <td>Precio</td>
-                  <td><input type="text" class="form-control" id="txtprecio"></td>
+                  <td><input type="text" class="form-control" id="txtprecio" placeholder="Precio"></td>
                 </tr>
 
                 <tr>
                   <td>Descuento</td>
                   <td><input type="number" class="form-control" placeholder="Descuento" id="txtdescuento"></td>
                 </tr>
-
               </tbody>
 
             </table>
@@ -224,49 +229,33 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
     </div>
   </div>
 
-<script>
+  <script>
     $(document).ready(function() {
       $('#table_productos').DataTable();
     });
   </script>
-<!--   
-  <script>
-    function loadproductinfo(id) {
-      var dato = $('#txtcodigoproducto').val();      
-      $.ajax({
-        type: "POST",
-        url: 'dataarticulo.php',
-        data: 'id='+id,
-        dataType: 'json',
-        success: function(data) {
-          $('#txtprecio').val(data.result.nombre_articulo);     
-          //alert(data.result.nombre_articulo);
-        }
-
-      });
-    }
-  </script> -->
-
 
   <script>
-$(document).ready(function(){
-    $('#searcharticle').on('click',function(){
+    $(document).ready(function() {
+      $('#searcharticle').on('click', function(e) {
+        e.preventDefault();
         var id = $('#txtcodigoproducto').val();
         $.ajax({
-            type:'POST',
-            url:'dataarticulo.php',
-            dataType: "json",
-            data:{id:id},
-            success:function(data){
-               
-                    $('#txtprecio').val(data.result.nombre_articulo);              
-                    alert(data.result.nombre_articulo);
-                
-            }
+          type: 'POST',
+          url: 'dataarticulo.php',
+          dataType: "json",
+          data: {
+            id: id
+          },
+          success: function(data) {
+            $('#txtnombreP').val(data.result.nombre_articulo);
+            $('#txtprecio').val(data.result.precio_articulo);
+            $('#txtcantidad').val(data.result.existencia_articulo);
+          }
         });
+      });
     });
-});
-</script>
+  </script>
 
 
 </body>

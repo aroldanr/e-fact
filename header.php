@@ -6,7 +6,12 @@ include_once 'conexion.php';
 <html>
 
 <head>
+<<<<<<< HEAD
 	<title>eFact :: <?php
+=======
+
+<title>eFact: <?php
+>>>>>>> master
 
 					echo $EMPRESA;
 					?></title>
@@ -14,6 +19,7 @@ include_once 'conexion.php';
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="keywords" content="Easy Admin Panel Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+<<<<<<< HEAD
 	<script type="application/x-javascript">
 		addEventListener("load", function() {
 			setTimeout(hideURLbar, 0);
@@ -50,6 +56,48 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<script src="js/jquery-1.10.2.min.js"></script>
 	<!-- Placed js at the end of the document so the pages load faster -->
 	<link rel="shortcut icon" href="images/favicon.png">
+=======
+ <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script> 
+<!-- Bootstrap Core CSS -->
+<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+<!-- Custom CSS -->
+<link href="css/style.css" rel='stylesheet' type='text/css' />
+<!-- Graph CSS -->
+<link href="css/font-awesome.css" rel="stylesheet">
+<!-- jQuery -->
+<!-- lined-icons -->
+<link rel="stylesheet" href="css/icon-font.min.css" type='text/css' />
+<!-- //lined-icons -->
+<!-- chart -->
+<script src="js/Chart.js"></script>
+<!-- //chart -->
+<!--animate-->
+<link href="css/animate.css" rel="stylesheet" type="text/css"
+	media="all">
+<script src="js/wow.min.js"></script>
+<script>
+		 new WOW().init();
+	</script>
+<!--//end-animate-->
+<!----webfonts--->
+<link
+	href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic'
+	rel='stylesheet' type='text/css'>
+<!---//webfonts--->
+<!-- Meters graphs -->
+<script src="js/jquery-1.10.2.min.js"></script>
+<!-- Placed js at the end of the document so the pages load faster -->
+<link rel="shortcut icon" href="images/favicon.png">
+
+<!-- Select2 -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+<!--DAtatable-->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">  
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+
+>>>>>>> master
 </head>
 
 <body class="sticky-header left-side-collapsed">

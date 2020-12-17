@@ -14,7 +14,7 @@
   font-weight: normal;
   font-style: normal;
 }
-.box1 {
+/* .box1 {
 	display: inline-block;
 	width: 15%;
 	padding:5px .5em;
@@ -25,7 +25,7 @@
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	font-size:13px;
-}
+} */
 .fontawesome-icon-list a i {
     margin-right:10px;
     font-size:25px;

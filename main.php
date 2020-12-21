@@ -10,8 +10,8 @@ $res2 = $cnn->query($query2);
 $estadisticas2 = $res2->fetch_array();
 
 $query3 = "SELECT (SELECT MAX(dv.total) AS mayor_venta FROM enc_venta AS ev INNER JOIN det_venta AS dv ON ev.id = dv.id_enc_venta WHERE ev.estado = 1 AND ev.fecha BETWEEN DATE(CONCAT_WS('-', YEAR(ev.fecha), MONTH(ev.fecha), '1')) AND LAST_DAY(ev.fecha)) AS mayor_venta, (SELECT MAX(dv.cantidad) AS mayor_venta FROM enc_venta AS ev INNER JOIN det_venta AS dv ON ev.id = dv.id_enc_venta WHERE ev.estado = 1 AND ev.fecha BETWEEN DATE(CONCAT_WS('-', YEAR(ev.fecha), MONTH(ev.fecha), '1')) AND LAST_DAY(ev.fecha)) AS mayor_producto, (SELECT v.nombre_vendedor FROM enc_venta AS ev INNER JOIN det_venta AS dv ON ev.id = dv.id_enc_venta INNER JOIN vendedor AS v ON ev.id_vendedor = v.id WHERE ev.estado = 1 AND ev.fecha BETWEEN DATE(CONCAT_WS('-', YEAR(ev.fecha), MONTH(ev.fecha), '1')) AND LAST_DAY(ev.fecha) GROUP BY v.nombre_vendedor HAVING MAX(dv.cantidad)) AS vendedor";
-$res3 = $cnn->query($query3);
-$estadisticas3 = $res3->fetch_array();
+/* $res3 = $cnn->query($query3);
+$estadisticas3 = $res3->fetch_array(); */
 
 $query4 = "SELECT COALESCE((SELECT SUM(dv.total) AS ventas FROM enc_venta AS ev INNER JOIN det_venta AS dv ON dv.id_enc_venta = ev.id WHERE ev.fecha = DATE_FORMAT(NOW(),'%Y-%m-%d')),0) AS ventas, (SELECT COUNT(id) AS productos FROM articulo) AS productos, (SELECT COUNT(id) AS clientes FROM cliente) AS clientes";
 $res4 = $cnn->query($query4);

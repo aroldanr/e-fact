@@ -8,6 +8,12 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 
 
 <head>
+
+  <script>
+    $(function() {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
   <style>
     /* width */
     ::-webkit-scrollbar {
@@ -171,6 +177,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
                   <td>Nombre</td>
                   <td>
                     <input id="txtnombreP" type="text" class="form-control" name="txtnombreP" placeholder="Nombre">
+                    <input id="idp" class="form-control" type="hidden">
                   </td>
                 </tr>
 
@@ -194,29 +201,37 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 
             </table>
 
-            <table id="table_productos" class="display">
+            <div class="row">
+              <button id="btnagregarproducto" class="btn btn-primary">Agregar Producto</button>
+            </div>
+
+            <table id="table_productos" class="display nowrap">
               <thead>
                 <tr>
-                  <th>Column 1</th>
-                  <th>Column 2</th>
+                  <th>#</th>
+                  <th>Nombre Producto</th>
+                  <th>Cantidad</th>
+                  <th>Precio</th>
+                  <th>Borrar</th>
+                  <th>Editar</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>Row 1 Data 1</td>
-                  <td>Row 1 Data 2</td>
-                </tr>
-                <tr>
-                  <td>Row 2 Data 1</td>
-                  <td>Row 2 Data 2</td>
-                </tr>
-              </tbody>
+             <!-- <tbody id="cuerpotablaproduct">
+                 <tr>
+                  <th></th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>  
+              </tbody>-->
             </table>
 
             </br></br>
             <div class="form-row">
               <div class="col-md-6">
-                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button id="brnguardarfactura" class="btn btn-primary">Guardar</button>
               </div>
 
             </div>
@@ -230,6 +245,9 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
   </div>
 
   <script>
+    $.extend($.fn.dataTable.defaults, {
+      responsive: true
+    });
     $(document).ready(function() {
       $('#table_productos').DataTable();
     });
@@ -240,20 +258,79 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
       $('#searcharticle').on('click', function(e) {
         e.preventDefault();
         var id = $('#txtcodigoproducto').val();
+        var opt = 1;
         $.ajax({
           type: 'POST',
           url: 'dataarticulo.php',
           dataType: "json",
           data: {
-            id: id
+            id: id,
+            option: opt
           },
           success: function(data) {
             $('#txtnombreP').val(data.result.nombre_articulo);
             $('#txtprecio').val(data.result.precio_articulo);
             $('#txtcantidad').val(data.result.existencia_articulo);
+            $('#idp').val(data.result.id);
           }
         });
       });
+    });
+  </script>
+
+  <script>
+    $(document).ready(function() {
+      $('#btnagregarproducto').click(function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var retorno = '';
+        var NombreP = document.getElementById("txtnombreP").value;
+        var CantidadP = document.getElementById("txtcantidad").value;
+        var PrecioP = document.getElementById("txtprecio").value;
+        var DescuentoP = document.getElementById("txtdescuento").value;
+        var idp = document.getElementById("idp").value;
+        // for (var i = 0; i < miArray.length; i += 1) {
+         retorno = retorno + '<tr><td>' + idp + '</td><td>' +
+          NombreP + '</td><td>' + CantidadP + '</td><td>' +
+          PrecioP + `</td><td><button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="Eliminar('${idp}')"><i class='fa fa-trash'></i></button></td><td><button id='btnActualizar' type='button' class='btn btn-success btn-sm rounded-0' OnClick="Actualizar('${idp}')"><i class='fa fa-edit'></button></td></tr>`; 
+        //}    
+
+        $('#table_productos').append(retorno);
+      });
+    });
+  </script>
+
+  <script>
+    $('#brnguardarfactura').click(function(e) {
+      e.preventDefault();
+      var $objCuerpoTabla = $("#table_productos").children().prev().parent();
+      $objCuerpoTabla.find("tbody tr").each(function() {
+
+        objDatosColumna = new Array();
+        var opt = 2;
+        var id = $(this).find('td').eq(0).html();
+        var nombre = $(this).find('td').eq(1).html();
+        var cantidad = $(this).find('td').eq(2).html();
+        var valorTot = $(this).find('td').eq(3).html();
+
+        valor = new Array(id, nombre, cantidad, valorTot);
+        objDatosColumna.push(valor);
+
+        $.ajax({
+          type: "POST",
+          url: "dataarticulo.php",
+          data: {
+            objDatosColumna: objDatosColumna,
+            option: opt
+          },
+
+          success: function(data) {
+            console.log(objDatosColumna);
+
+          }
+        });
+      });
+
     });
   </script>
 

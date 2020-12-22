@@ -55,27 +55,20 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
           <td>Factura No.</td>
 
           <?php
+            $consecutivodata = "SELECT numero FROM enc_venta ORDER BY id DESC LIMIT 1";
+            $Objconsecutivo = mysqli_query($cnn, $consecutivodata) or die(mysql_error($cnn));
+            $resul = mysqli_fetch_assoc($Objconsecutivo);
 
+            $consecutivo = substr($resul['numero'], 0, 4);
 
-          $consecutivodata = "SELECT numero FROM enc_venta ORDER BY id DESC LIMIT 1";
-          $Objconsecutivo = mysqli_query($cnn, $consecutivodata) or die(mysql_error($cnn));
-          $resul = mysqli_fetch_assoc($Objconsecutivo);
+            $sumaconsecutivo = intval($consecutivo + 1);
+            $count = 2;
+            $digits = 10;
+            $start = $resul['numero'];
 
-          $consecutivo = substr($resul['numero'], 0, 4);
-
-          $sumaconsecutivo = intval($consecutivo + 1);
-          $count = 2;
-          $digits = 10;
-          $start = $resul['numero'];
-
-
-
-          for ($n = $start; $n < $start + $count; $n++) {
-            $result = str_pad($n, $digits, "0", STR_PAD_LEFT);
-          }
-
-
-
+            for ($n = $start; $n < $start + $count; $n++) {
+              $result = str_pad($n, $digits, "0", STR_PAD_LEFT);
+            }
           ?>
           <td><input id="txtNoFactura" value="<?php echo $result; ?>" class="form-control" readonly></td>
         </tr>
@@ -90,10 +83,8 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 
               <?php
               // include 'conexion.php';  
-
-              $clientedata = "SELECT concat(nombre1_cliente,' ',nombre2_cliente,' ',apellido1_cliente,' ',apellido2_cliente) as nombre_cliente, id FROM cliente";
-              $Objcliente = mysqli_query($cnn, $clientedata) or die(mysql_error($cnn));
-
+                $clientedata = "SELECT concat(nombre1_cliente,' ',nombre2_cliente,' ',apellido1_cliente,' ',apellido2_cliente) as nombre_cliente, id FROM cliente";
+                $Objcliente = mysqli_query($cnn, $clientedata) or die(mysql_error($cnn));
               ?>
 
               <?php foreach ($Objcliente as $opciones) : ?>
@@ -106,19 +97,19 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
         <tr>
           <td>Vendedor</td>
           <td>
+          
             <select name="dropvendedor" id="dropvendedor" style="width: 100%" class="js-example-basic-single js-states form-control">
-
               <?php
               // include 'conexion.php';
-
-              $vendedordata = "SELECT nombre_vendedor,id FROM vendedor";
-              $Objvendedor = mysqli_query($cnn, $vendedordata) or die(mysql_error($cnn));
-
+                $vendedordata = "SELECT nombre_vendedor,id FROM vendedor";
+                $Objvendedor = mysqli_query($cnn, $vendedordata) or die(mysql_error($cnn));
               ?>
+
               <?php foreach ($Objvendedor as $itemsvendedor) : ?>
                 <option class="form-control" value="<?php echo $itemsvendedor['id'] ?>"><?php echo $itemsvendedor['nombre_vendedor'] ?></option>
               <?php endforeach ?>
             </select>
+
           </td>
         </tr>
         <tr>
@@ -145,16 +136,16 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
       <div class="panel panel-primary">
         <div class="panel-heading">Registros marcados con un * son requeridos</div>
         <div class="panel-body">
-
           <form>
-
             <table class="table table-bordered">
+
               <thead>
                 <tr>
                   <th>Campo</th>
                   <th>Valor</th>
                 </tr>
               </thead>
+
               <tbody>
                 <tr>
                   <?php $codigoproducto = "12345" ?>
@@ -169,36 +160,42 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
                         </button>
                       </div>
                     </div>
-
                   </td>
                 </tr>
 
                 <tr>
                   <td>Nombre</td>
                   <td>
-                    <input id="txtnombreP" type="text" class="form-control" name="txtnombreP" placeholder="Nombre">
+                    <input id="txtnombreP" type="text" class="form-control" name="txtnombreP" placeholder="Nombre" readonly>
                     <input id="idp" class="form-control" type="hidden">
                   </td>
                 </tr>
 
                 <tr>
-                  <td>Cantidad</td>
-                  <td>
-                    <input id="txtcantidad" type="number" class="form-control" name="txtcantidad" placeholder="Cantidad">
+                  <td>Disponible</td>
+                  <td> 
+                    <input id="txtcantidad" type="number" class="form-control" name="txtcantidad" placeholder="Disponible" readonly>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Deseado</td>
+                  <td> 
+                    <input id="txtdeseado" type="number" class="form-control" min="1" max=`50` name="txtdeseado" placeholder="Cantidad">
                   </td>
                 </tr>
 
                 <tr>
                   <td>Precio</td>
-                  <td><input type="text" class="form-control" id="txtprecio" placeholder="Precio"></td>
+                  <td><input type="text" class="form-control" id="txtprecio" placeholder="Precio" readonly></td>
                 </tr>
 
                 <tr>
                   <td>Descuento</td>
-                  <td><input type="number" class="form-control" placeholder="Descuento" id="txtdescuento"></td>
+                  <td><input type="number" class="form-control" placeholder="Descuento" min="1" max="50" step="1" id="txtdescuento"></td>
                 </tr>
-              </tbody>
 
+              </tbody>
             </table>
 
             <div class="row">
@@ -334,6 +331,12 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
     });
   </script>
 
+  <script>
+    function max() {
+      var a = document.getElementById("txtcantidad").value;
+      console.log(a);
+    }
+  </script>
 
 </body>
 

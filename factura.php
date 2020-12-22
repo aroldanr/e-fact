@@ -55,20 +55,20 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
           <td>Factura No.</td>
 
           <?php
-            $consecutivodata = "SELECT numero FROM enc_venta ORDER BY id DESC LIMIT 1";
-            $Objconsecutivo = mysqli_query($cnn, $consecutivodata) or die(mysql_error($cnn));
-            $resul = mysqli_fetch_assoc($Objconsecutivo);
+          $consecutivodata = "SELECT numero FROM enc_venta ORDER BY id DESC LIMIT 1";
+          $Objconsecutivo = mysqli_query($cnn, $consecutivodata) or die(mysql_error($cnn));
+          $resul = mysqli_fetch_assoc($Objconsecutivo);
 
-            $consecutivo = substr($resul['numero'], 0, 4);
+          $consecutivo = substr($resul['numero'], 0, 4);
 
-            $sumaconsecutivo = intval($consecutivo + 1);
-            $count = 2;
-            $digits = 10;
-            $start = $resul['numero'];
+          $sumaconsecutivo = intval($consecutivo + 1);
+          $count = 2;
+          $digits = 10;
+          $start = $resul['numero'];
 
-            for ($n = $start; $n < $start + $count; $n++) {
-              $result = str_pad($n, $digits, "0", STR_PAD_LEFT);
-            }
+          for ($n = $start; $n < $start + $count; $n++) {
+            $result = str_pad($n, $digits, "0", STR_PAD_LEFT);
+          }
           ?>
           <td><input id="txtNoFactura" value="<?php echo $result; ?>" class="form-control" readonly></td>
         </tr>
@@ -83,8 +83,8 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 
               <?php
               // include 'conexion.php';  
-                $clientedata = "SELECT concat(nombre1_cliente,' ',nombre2_cliente,' ',apellido1_cliente,' ',apellido2_cliente) as nombre_cliente, id FROM cliente";
-                $Objcliente = mysqli_query($cnn, $clientedata) or die(mysql_error($cnn));
+              $clientedata = "SELECT concat(nombre1_cliente,' ',nombre2_cliente,' ',apellido1_cliente,' ',apellido2_cliente) as nombre_cliente, id FROM cliente";
+              $Objcliente = mysqli_query($cnn, $clientedata) or die(mysql_error($cnn));
               ?>
 
               <?php foreach ($Objcliente as $opciones) : ?>
@@ -97,12 +97,12 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
         <tr>
           <td>Vendedor</td>
           <td>
-          
+
             <select name="dropvendedor" id="dropvendedor" style="width: 100%" class="js-example-basic-single js-states form-control">
               <?php
               // include 'conexion.php';
-                $vendedordata = "SELECT nombre_vendedor,id FROM vendedor";
-                $Objvendedor = mysqli_query($cnn, $vendedordata) or die(mysql_error($cnn));
+              $vendedordata = "SELECT nombre_vendedor,id FROM vendedor";
+              $Objvendedor = mysqli_query($cnn, $vendedordata) or die(mysql_error($cnn));
               ?>
 
               <?php foreach ($Objvendedor as $itemsvendedor) : ?>
@@ -173,14 +173,14 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 
                 <tr>
                   <td>Disponible</td>
-                  <td> 
+                  <td>
                     <input id="txtcantidad" type="number" class="form-control" name="txtcantidad" placeholder="Disponible" readonly>
                   </td>
                 </tr>
 
                 <tr>
                   <td>Deseado</td>
-                  <td> 
+                  <td>
                     <input id="txtdeseado" type="number" class="form-control" min="1" max=`50` name="txtdeseado" placeholder="Cantidad">
                   </td>
                 </tr>
@@ -213,7 +213,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
                   <th>Editar</th>
                 </tr>
               </thead>
-             <!-- <tbody id="cuerpotablaproduct">
+              <!-- <tbody id="cuerpotablaproduct">
                  <tr>
                   <th></th>
                   <td></td>
@@ -252,6 +252,14 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 
   <script>
     $(document).ready(function() {
+      $('#btnagregarproducto').click(function(e) {
+        var table = $('#table_productos').DataTable();
+      });
+    });
+  </script>
+
+  <script>
+    $(document).ready(function() {
       $('#searcharticle').on('click', function(e) {
         e.preventDefault();
         var id = $('#txtcodigoproducto').val();
@@ -282,14 +290,14 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
         e.stopPropagation();
         var retorno = '';
         var NombreP = document.getElementById("txtnombreP").value;
-        var CantidadP = document.getElementById("txtcantidad").value;
+        var CantidadP = document.getElementById("txtdeseado").value;
         var PrecioP = document.getElementById("txtprecio").value;
         var DescuentoP = document.getElementById("txtdescuento").value;
         var idp = document.getElementById("idp").value;
         // for (var i = 0; i < miArray.length; i += 1) {
-         retorno = retorno + '<tr><td>' + idp + '</td><td>' +
+        retorno = retorno + '<tr><td>' + idp + '</td><td>' +
           NombreP + '</td><td>' + CantidadP + '</td><td>' +
-          PrecioP + `</td><td><button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="Eliminar('${idp}')"><i class='fa fa-trash'></i></button></td><td><button id='btnActualizar' type='button' class='btn btn-success btn-sm rounded-0' OnClick="Actualizar('${idp}')"><i class='fa fa-edit'></button></td></tr>`; 
+          PrecioP + `</td><td><button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="Eliminar('${idp}')"><i class='fa fa-trash'></i></button></td><td><button id='btnActualizar' type='button' class='btn btn-success btn-sm rounded-0' OnClick="Actualizar('${idp}')"><i class='fa fa-edit'></button></td></tr>`;
         //}    
 
         $('#table_productos').append(retorno);
@@ -330,13 +338,13 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 
     });
   </script>
-
+  <!-- 
   <script>
     function max() {
       var a = document.getElementById("txtcantidad").value;
       console.log(a);
     }
-  </script>
+  </script> -->
 
 </body>
 

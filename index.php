@@ -23,7 +23,7 @@
 					session_start();
 					$_SESSION['id'] = $fila2['id'];
 					$_SESSION['usuario'] = $fila2['nombre_vendedor'];
-					header('Location: invoice.php');
+					header('Location: facturavendedor.php');
 				}
 			}else{
 				header('Location: index.php');

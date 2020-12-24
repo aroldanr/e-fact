@@ -14,27 +14,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
       $('[data-toggle="tooltip"]').tooltip();
     });
   </script>
-  <style>
-    /* width */
-    ::-webkit-scrollbar {
-      width: 10px;
-    }
 
-    /* Track */
-    ::-webkit-scrollbar-track {
-      background: #f1f1f1;
-    }
-
-    /* Handle */
-    ::-webkit-scrollbar-thumb {
-      background: #888;
-    }
-
-    /* Handle on hover */
-    ::-webkit-scrollbar-thumb:hover {
-      background: #555;
-    }
-  </style>
 </head>
 
 <body>
@@ -79,7 +59,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
         <tr>
           <td>Cliente</td>
           <td>
-            <select id="dropcliente" style="width: 100%" class="js-example-basic-single js-states form-control" name="dropcliente">
+            <select id="dropcliente" style="width: 100%" class="js-example-basic-single js-states" name="dropcliente">
 
               <?php
               // include 'conexion.php';  
@@ -98,7 +78,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
           <td>Vendedor</td>
           <td>
 
-            <select name="dropvendedor" id="dropvendedor" style="width: 100%" class="js-example-basic-single js-states form-control">
+            <select name="dropvendedor" id="dropvendedor" style="width: 100%" class="js-example-basic-single js-states">
               <?php
               // include 'conexion.php';
               $vendedordata = "SELECT nombre_vendedor,id FROM vendedor";

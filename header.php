@@ -6,6 +6,7 @@ include_once 'conexion.php';
 <html>
 
 <head>
+
 	<style>
 		body {
 			background: #dd5e89;

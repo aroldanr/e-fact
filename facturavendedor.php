@@ -182,29 +182,18 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
               <button id="btnagregarproducto" class="btn btn-primary">Agregar Producto</button>
             </div>
 
-            <table id="table_productos" class="display nowrap">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Nombre Producto</th>
-                  <th>Cantidad</th>
-                  <th>Precio</th>
-                  <th>Borrar</th>
-                  <th>Editar</th>
-                </tr>
-              </thead>
-              <!-- <tbody id="cuerpotablaproduct">
-                 <tr>
-                  <th></th>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>  
-              </tbody>-->
-            </table>
+            
+              <div class="row">
+                <div class="col-lg-12">
+                  <table id="table_productos" class="table table-bordered  display nowrap" cellspacing="0" width="100%">
 
+
+
+                  </table>
+
+                </div>
+              </div>
+         
             </br></br>
             <div class="form-row">
               <div class="col-md-6">
@@ -222,18 +211,59 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
   </div>
 
   <script>
-    $.extend($.fn.dataTable.defaults, {
-      responsive: true
-    });
     $(document).ready(function() {
-      $('#table_productos').DataTable();
-    });
-  </script>
 
-  <script>
-    $(document).ready(function() {
+      var dataSet = [];
+
+      var tablaListado = $("#table_productos").DataTable({
+        responsive: true,
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+        "data": dataSet,
+        "columns": [{
+            "title": "codigoproducto"
+          },
+          {
+            "title": "nombreproducto"
+          },
+          {
+            "title": "cantidadproducto"
+          },
+          {
+            "title": "precio"
+          },
+          {
+            "title": "Eliminar"
+          },
+          {
+            "title": "Editar"
+          }
+
+        ]
+      });
+
+
+
       $('#btnagregarproducto').click(function(e) {
-        var table = $('#table_productos').DataTable();
+        e.preventDefault();
+        e.stopPropagation();
+        var NombreP = document.getElementById("txtnombreP").value;
+        var CantidadP = document.getElementById("txtdeseado").value;
+        var PrecioP = document.getElementById("txtprecio").value;
+        var DescuentoP = document.getElementById("txtdescuento").value;
+        var idp = document.getElementById("idp").value;
+        var bteliminar = `<button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="Eliminar('${idp}')"><i class='fa fa-trash'></i></button>`
+        var bteditar = `<button id='btnEditar' class='btn btn-success btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="Editar('${idp}')"><i class='fa fa-edit'></i></button>`
+
+        var data1 = [idp, NombreP, CantidadP, PrecioP,bteliminar,bteditar];
+
+        dataSet.push(data1);
+
+        tablaListado.clear();
+        tablaListado.rows.add(dataSet);
+        tablaListado.draw();
+
+
+
       });
     });
   </script>
@@ -264,7 +294,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
   </script>
 
   <script>
-    $(document).ready(function() {
+    /*     $(document).ready(function() {
       $('#btnagregarproducto').click(function(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -274,15 +304,15 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
         var PrecioP = document.getElementById("txtprecio").value;
         var DescuentoP = document.getElementById("txtdescuento").value;
         var idp = document.getElementById("idp").value;
-        // for (var i = 0; i < miArray.length; i += 1) {
+       
         retorno = retorno + '<tr><td>' + idp + '</td><td>' +
           NombreP + '</td><td>' + CantidadP + '</td><td>' +
           PrecioP + `</td><td><button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="Eliminar('${idp}')"><i class='fa fa-trash'></i></button></td><td><button id='btnActualizar' type='button' class='btn btn-success btn-sm rounded-0' OnClick="Actualizar('${idp}')"><i class='fa fa-edit'></button></td></tr>`;
-        //}    
+         
 
         $('#table_productos').append(retorno);
       });
-    });
+    }); */
   </script>
 
   <script>
@@ -318,13 +348,6 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 
     });
   </script>
-  <!-- 
-  <script>
-    function max() {
-      var a = document.getElementById("txtcantidad").value;
-      console.log(a);
-    }
-  </script> -->
 
 </body>
 

@@ -18,5 +18,7 @@ echo date('Y');
 <script src="js/bootstrap.min.js"></script>
 
 <script src="js/scripts.js"></script> 
+   <!-- extension responsive -->
+   <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
 </body>
 </html>

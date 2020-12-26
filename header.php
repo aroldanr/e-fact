@@ -71,6 +71,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
 	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
 
+	 <!--  extension responsive  -->
+	 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+
+<!-- 	<script type="text/javascript" charset="utf8" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></script>
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap.min.css"></script>
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/fixedheader/3.1.7/css/fixedHeader.bootstrap.min.css"></script>
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.6/css/responsive.bootstrap.min.css"></script> -->
+
+
+	
+
 </head>
 
 <body class="sticky-header left-side-collapsed">

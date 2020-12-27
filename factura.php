@@ -182,18 +182,18 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
               <button id="btnagregarproducto" class="btn btn-primary">Agregar Producto</button>
             </div>
 
-            
-              <div class="row">
-                <div class="col-lg-12">
-                  <table id="table_productos" class="table table-bordered  display nowrap" cellspacing="0" width="100%">
+
+            <div class="row">
+              <div class="col-lg-12">
+                <table id="table_productos" class="table table-bordered  display nowrap" cellspacing="0" width="100%">
 
 
 
-                  </table>
+                </table>
 
-                </div>
               </div>
-         
+            </div>
+
             </br></br>
             <div class="form-row">
               <div class="col-md-6">
@@ -211,11 +211,28 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
   </div>
 
   <script>
-    $(document).ready(function() {
+    var tablaListado;
 
+    function eliminar() {
+      $("#table_productos").on('click', '.btn-danger', function() {
+        // $(this).parent().parent().remove();
+        tablaListado.row($(this).parent().parent()).remove().draw();
+
+      });
+    }
+
+    function eliminar2(tablaListado) {
+      var id = tablaListado.row(this).id();
+      alert('Clicked row id ' + id);
+    }
+  </script>
+
+
+  <script>
+    $(document).ready(function() {
       var dataSet = [];
 
-      var tablaListado = $("#table_productos").DataTable({
+      tablaListado = $("#table_productos").DataTable({
         responsive: true,
         buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
         "data": dataSet,
@@ -238,10 +255,9 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
             "title": "Editar"
           }
 
-        ]
+        ],
+        "ordering": false
       });
-
-
 
       $('#btnagregarproducto').click(function(e) {
         e.preventDefault();
@@ -251,10 +267,12 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
         var PrecioP = document.getElementById("txtprecio").value;
         var DescuentoP = document.getElementById("txtdescuento").value;
         var idp = document.getElementById("idp").value;
-        var bteliminar = `<button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="Eliminar('${idp}')"><i class='fa fa-trash'></i></button>`
+
+        // var bteliminar = `<button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="eliminar('${idp}')"><i class='fa fa-trash'></i></button>`
+        var bteliminar = `<button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="eliminar()"><i class='fa fa-trash'></i></button>`
         var bteditar = `<button id='btnEditar' class='btn btn-success btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="Editar('${idp}')"><i class='fa fa-edit'></i></button>`
 
-        var data1 = [idp, NombreP, CantidadP, PrecioP,bteliminar,bteditar];
+        var data1 = [idp, NombreP, CantidadP, PrecioP, bteliminar, bteditar];
 
         dataSet.push(data1);
 
@@ -262,9 +280,8 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
         tablaListado.rows.add(dataSet);
         tablaListado.draw();
 
-
-
       });
+
     });
   </script>
 

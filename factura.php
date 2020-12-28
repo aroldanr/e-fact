@@ -231,6 +231,8 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
   <script>
     $(document).ready(function() {
       var dataSet = [];
+      var objetofacturajson = [];
+      var jsonn = "";
 
       tablaListado = $("#table_productos").DataTable({
         responsive: true,
@@ -279,6 +281,38 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
         tablaListado.clear();
         tablaListado.rows.add(dataSet);
         tablaListado.draw();
+
+       
+          objetofacturajson.push({
+            idp: NombreP,
+            NombreP: NombreP,
+            CantidadP: CantidadP,
+            PrecioP: PrecioP,
+          });
+
+     
+
+
+      });
+
+      $('#brnguardarfactura').click(function(e) {
+        e.preventDefault();
+
+        var opt = 2;
+        $.ajax({
+          type: "POST",
+          url: "dataarticulo.php",                   
+          data: {
+            objDatosColumna: JSON.stringify(objetofacturajson),
+            option: opt
+          },
+
+          success: function(data) {
+            console.log(JSON.stringify(objetofacturajson));
+
+          }
+        });
+
 
       });
 
@@ -333,37 +367,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
   </script>
 
   <script>
-    $('#brnguardarfactura').click(function(e) {
-      e.preventDefault();
-      var $objCuerpoTabla = $("#table_productos").children().prev().parent();
-      $objCuerpoTabla.find("tbody tr").each(function() {
 
-        objDatosColumna = new Array();
-        var opt = 2;
-        var id = $(this).find('td').eq(0).html();
-        var nombre = $(this).find('td').eq(1).html();
-        var cantidad = $(this).find('td').eq(2).html();
-        var valorTot = $(this).find('td').eq(3).html();
-
-        valor = new Array(id, nombre, cantidad, valorTot);
-        objDatosColumna.push(valor);
-
-        $.ajax({
-          type: "POST",
-          url: "dataarticulo.php",
-          data: {
-            objDatosColumna: objDatosColumna,
-            option: opt
-          },
-
-          success: function(data) {
-            console.log(objDatosColumna);
-
-          }
-        });
-      });
-
-    });
   </script>
 
 </body>

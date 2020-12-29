@@ -284,7 +284,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 
        
           objetofacturajson.push({
-            idp: NombreP,
+            idp: idp,
             NombreP: NombreP,
             CantidadP: CantidadP,
             PrecioP: PrecioP,

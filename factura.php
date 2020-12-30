@@ -6,7 +6,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 
 <html lang="en">
 
-
+<!-- 
 <head>
 
   <script>
@@ -15,12 +15,10 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
     });
   </script>
 
-</head>
+</head> -->
 
 <body>
-  </br>
-  </br>
-  <div class="container" style="background-color: white;">
+  <div class="container" style="background-color: white; margin-top: 5rem;">
     <h2>Registro de Facturas</h2>
     <p>Registros marcados con un * son requeridos</p>
     <table class="table table-bordered">
@@ -210,33 +208,53 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
     </div>
   </div>
 
+  <div class="container">
+    <table id="example" class="display" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Position</th>
+          <th>Office</th>
+          <th>Extn.</th>
+          <th>Start date</th>
+          <th>Salary</th>
+          <th>Edit / Delete</th>
+        </tr>
+      </thead>
+      <tfoot>
+        <tr>
+          <th>Name</th>
+          <th>Position</th>
+          <th>Office</th>
+          <th>Extn.</th>
+          <th>Start date</th>
+          <th>Salary</th>
+          <th>Edit / Delete</th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
   <script>
     var tablaListado;
+    var editor;
+    var dataSet;
+    var objetofacturajson;
+    var jsonn;
 
-    function eliminar() {
-      $("#table_productos").on('click', '.btn-danger', function() {
-        // $(this).parent().parent().remove();
-        tablaListado.row($(this).parent().parent()).remove().draw();
-
-      });
-    }
-
-    function eliminar2(tablaListado) {
-      var id = tablaListado.row(this).id();
-      alert('Clicked row id ' + id);
-    }
-  </script>
-
-
-  <script>
     $(document).ready(function() {
-      var dataSet = [];
-      var objetofacturajson = [];
-      var jsonn = "";
+      dataSet = [];
+      objetofacturajson = [];
+      jsonn = "";
 
+      // Datatable init
       tablaListado = $("#table_productos").DataTable({
         responsive: true,
-        buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+        dom: 'Bfrtip',
+        buttons: [
+          'print'
+        ],
+        select: true,
         "data": dataSet,
         "columns": [{
             "title": "codigoproducto"
@@ -256,11 +274,13 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
           {
             "title": "Editar"
           }
-
         ],
-        "ordering": false
+        "ordering": false,
+        paging: false,
+        scrollY: 400,
       });
 
+      // Pushing the data from the inputs to the Datatable
       $('#btnagregarproducto').click(function(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -272,6 +292,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 
         // var bteliminar = `<button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="eliminar('${idp}')"><i class='fa fa-trash'></i></button>`
         var bteliminar = `<button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="eliminar()"><i class='fa fa-trash'></i></button>`
+        // var bteliminar = `<button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="eliminar2(${tablaListado.data()})"><i class='fa fa-trash'></i></button>`
         var bteditar = `<button id='btnEditar' class='btn btn-success btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="Editar('${idp}')"><i class='fa fa-edit'></i></button>`
 
         var data1 = [idp, NombreP, CantidadP, PrecioP, bteliminar, bteditar];
@@ -282,41 +303,47 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
         tablaListado.rows.add(dataSet);
         tablaListado.draw();
 
-       
-          objetofacturajson.push({
-            idp: idp,
-            NombreP: NombreP,
-            CantidadP: CantidadP,
-            PrecioP: PrecioP,
-          });
 
-     
-
-
+        objetofacturajson.push({
+          idp: idp,
+          NombreP: NombreP,
+          CantidadP: CantidadP,
+          PrecioP: PrecioP,
+        });
       });
 
+      // Save the DataTable on the Database
       $('#brnguardarfactura').click(function(e) {
         e.preventDefault();
 
         var opt = 2;
         $.ajax({
           type: "POST",
-          url: "dataarticulo.php",                   
+          url: "dataarticulo.php",
           data: {
             objDatosColumna: JSON.stringify(objetofacturajson),
             option: opt
           },
-
           success: function(data) {
             console.log(JSON.stringify(objetofacturajson));
-
           }
         });
-
-
       });
-
     });
+
+    // Delete function
+    // Eliminamos el elemento padre del boton > [Tabla]
+    function eliminar() {
+      $("#table_productos").on('click', '.btn-danger', function(e) {
+        e.preventDefault();
+        // $(this).parent().parent().remove();
+        //tablaListado.row($(this).parent().parent()).remove().draw();
+        tablaListado
+          .row($(this).parents('tr'))
+          .remove()
+          .draw();
+      });
+    }
   </script>
 
   <script>
@@ -367,7 +394,99 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
   </script>
 
   <script>
+    // TEST DATATABLE
+    var editor; // use a global for the submit and return data rendering in the examples
 
+    $(document).ready(function() {
+      editor = new $.fn.dataTable.Editor({
+        "ajax": "test.ajax",
+        "table": "#example",
+        "fields": [{
+          "label": "First name:",
+          "name": "first_name"
+        }, {
+          "label": "Last name:",
+          "name": "last_name"
+        }, {
+          "label": "Position:",
+          "name": "position"
+        }, {
+          "label": "Office:",
+          "name": "office"
+        }, {
+          "label": "Extension:",
+          "name": "extn"
+        }, {
+          "label": "Start date:",
+          "name": "start_date",
+          "type": "datetime"
+        }, {
+          "label": "Salary:",
+          "name": "salary"
+        }]
+      });
+
+      // Edit record
+      $('#example').on('click', 'a.editor_edit', function(e) {
+        e.preventDefault();
+
+        editor.edit($(this).closest('tr'), {
+          title: 'Edit record',
+          buttons: 'Update'
+        });
+      });
+
+      // Delete a record
+      $('#example').on('click', 'a.editor_remove', function(e) {
+        e.preventDefault();
+
+        editor.remove($(this).closest('tr'), {
+          title: 'Delete record',
+          message: 'Are you sure you wish to remove this record?',
+          buttons: 'Delete'
+        });
+      });
+
+      $('#example').DataTable({
+        ajax: "test.ajax",
+        columns: [{
+            data: null,
+            render: function(data, type, row) {
+              // Combine the first and last names into a single table field
+              return data.first_name + ' ' + data.last_name;
+            }
+          },
+          {
+            data: "position"
+          },
+          {
+            data: "office"
+          },
+          {
+            data: "extn"
+          },
+          {
+            data: "start_date"
+          },
+          {
+            data: "salary",
+            render: $.fn.dataTable.render.number(',', '.', 0, '$')
+          },
+          {
+            data: null,
+            className: "center",
+            defaultContent: '<a href="" class="editor_edit">Edit</a> / <a href="" class="editor_remove">Delete</a>'
+          }
+        ]
+      });
+    });
+  </script>
+
+  <script>
+    $(document).ready(function() {
+      $('#dropcliente').select2();
+      $('#dropvendedor').select2();
+    });
   </script>
 
 </body>
@@ -376,12 +495,5 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 require_once 'footer.php';
 
 ?>
-
-<script>
-  $(document).ready(function() {
-    $('#dropcliente').select2();
-    $('#dropvendedor').select2();
-  });
-</script>
 
 </html>

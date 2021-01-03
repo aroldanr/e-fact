@@ -391,7 +391,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 
     $(document).ready(function() {
       editor = new $.fn.dataTable.Editor({
-        "ajax": "test.ajax",
+        "ajax": "staff.php",
         "table": "#example",
         "fields": [{
           "label": "First name:",
@@ -440,7 +440,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
       });
 
       $('#example').DataTable({
-        ajax: "test.ajax",
+        ajax: "staff.php",
         columns: [{
             data: null,
             render: function(data, type, row) {

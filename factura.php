@@ -304,11 +304,16 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
           url: "dataarticulo.php",                   
           data: {
             objDatosColumna: JSON.stringify(objetofacturajson),
-            option: opt
+            option: opt,
+            idcliente: document.getElementById("dropcliente").value,
+            idvendedor: document.getElementById("dropvendedor").value,
+            numerofactura: document.getElementById("txtNoFactura").value,
+            fechafactura: document.getElementById("start").value
           },
 
           success: function(data) {
-            console.log(JSON.stringify(objetofacturajson));
+            alert(data);
+            reloadpage();
 
           }
         });
@@ -317,6 +322,11 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
       });
 
     });
+
+    function reloadpage()
+    {
+      location.reload();
+    }
   </script>
 
   <script>

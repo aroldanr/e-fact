@@ -23,33 +23,37 @@
       case 2:
 
          $objetofactura = json_decode($_POST["objDatosColumna"],true);
+         $idcliente = $_POST["idcliente"];
+         $idvendedor = $_POST["idvendedor"];
+         $numerofactura = $_POST["numerofactura"];
+         $fechafactura = $_POST["fechafactura"];         
+        
+         $birthday = new DateTime('1879-03-14');   
+
+         $query1 = "INSERT INTO enc_venta(numero,fecha,id_cliente,id_vendedor,activa,estado) VALUES($numerofactura,'$fechafactura',$idcliente,$idvendedor,1,1)";
+         $resultado1 = $cnn->query($query1);
+         $idenc_venta = $cnn->insert_id;//para obtener el id autogenerado y pasarlo a la tabla det_venta
+
          foreach ($objetofactura as $factura) {
            $idp = $factura["idp"];
            $CantidadP = $factura["CantidadP"];
-           $PrecioP = $factura["PrecioP"];
+           $PrecioP = $factura["PrecioP"];         
+           
 
-           try{
-            $query = "INSERT INTO det_venta(id_enc_venta,id_articulo,cantidad,precio,descuento,total) VALUES($idp,$idp,$CantidadP,$PrecioP,$PrecioP,$PrecioP)";
-            $resultado = $cnn->query($query); 
-           }
-           catch(Exception $e)
-           {
-            echo 'Message: ' .$e->getMessage();
-               echo "Insercion fallida ";
-            
-           }
+            $query = "INSERT INTO det_venta(id_enc_venta,id_articulo,cantidad,precio,descuento,total) VALUES($idenc_venta,$idp,$CantidadP,$PrecioP,$PrecioP,$PrecioP)";
+            $resultado = $cnn->query($query);             
+           // printf ("New Record has id %d.\n", $cnn->insert_id);
+          
           
            if($resultado)
            {
-             echo "Insercion exitosa";
+            echo "La factura se ha guardado correctamente";
            }
            else 
            {
-              echo "Insercion fallida";
-           }
-          
+              echo "Ha ocurrido un error";
+           }         
 
-          //echo $factura["idp"],$factura["CantidadP"],$factura["PrecioP"];
          }
          mysqli_close($cnn);
 

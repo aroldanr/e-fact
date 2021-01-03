@@ -184,7 +184,6 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
                       <th>Cantidad</th>
                       <th>Precio</th>
                       <th>Eliminar</th>
-                      <th>Editar</th>
                     </tr>
                   </thead>
                 </table>
@@ -207,33 +206,6 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
     </div>
   </div>
 
-  <div class="container">
-    <table id="example" class="display" cellspacing="0" width="100%">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Position</th>
-          <th>Office</th>
-          <th>Extn.</th>
-          <th>Start date</th>
-          <th>Salary</th>
-          <th>Edit / Delete</th>
-        </tr>
-      </thead>
-      <tfoot>
-        <tr>
-          <th>Name</th>
-          <th>Position</th>
-          <th>Office</th>
-          <th>Extn.</th>
-          <th>Start date</th>
-          <th>Salary</th>
-          <th>Edit / Delete</th>
-        </tr>
-      </tfoot>
-    </table>
-  </div>
-
   <script>
     var tablaListado;
     var editor;
@@ -241,48 +213,13 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
     var objetofacturajson;
     var jsonn;
 
-    var data1 = [];
-    var id = 1;
+    var tablalistadosdata;
+    var objfactura;
 
     $(document).ready(function() {
       dataSet = [];
       objetofacturajson = [];
       jsonn = "";
-
-      // Datatable init
-      // tablaListado = $("#table_productos").DataTable({
-      //   responsive: true,
-      //   dom: 'Bfrtip',
-      //   buttons: [
-      //     'print'
-      //   ],
-      //   select: true,
-      //   "data": dataSet,
-      //   "columns": [{
-      //       "title": "Codigo"
-      //     },
-      //     {
-      //       "title": "Nombre"
-      //     },
-      //     {
-      //       "title": "Cantidad"
-      //     },
-      //     {
-      //       "title": "Precio"
-      //     },
-      //     {
-      //       "title": "Eliminar"
-      //     },
-      //     {
-      //       "title": "Editar"
-      //     }
-      //   ],
-      //   "ordering": false,
-      //   paging: false,
-      //   scrollY: 400,
-      // });
-
-
 
       tablaListado = $("#table_productos").DataTable({
         responsive: true,
@@ -307,69 +244,59 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
         var PrecioP = document.getElementById("txtprecio").value;
         var DescuentoP = document.getElementById("txtdescuento").value;
 
-        var bteliminar = `<button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="eliminar('${id}')"><i class='fa fa-trash'></i></button>`
-        var bteditar = `<button id='btnEditar' class='btn btn-success btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="editar('${id}')"><i class='fa fa-edit'></i></button>`
+        var bteliminar = `<button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="eliminar()"><i class='fa fa-trash'></i></button>`
 
         tablaListado.row.add([
           idp,
           NombreP,
           CantidadP,
           PrecioP,
-          bteliminar,
-          bteditar
+          bteliminar
         ]).draw(false);
 
-
-        // data1 = [idp, NombreP, CantidadP, PrecioP, bteliminar, bteditar];
-
-        // data1JSON = JSON.stringify(data1);
-        // console.log(data1JSON)
-
-        // dataSet.push(data1);
-
-        // tablaListado.clear();
-        // tablaListado.rows.add(dataSet);
-        // tablaListado.draw();
-
-
-        // objetofacturajson.push({
-        //   idp: idp,
-        //   NombreP: NombreP,
-        //   CantidadP: CantidadP,
-        //   PrecioP: PrecioP,
-        // });
-
-        id += 1;
       });
 
       // Save the DataTable on the Database
       $('#brnguardarfactura').click(function(e) {
         e.preventDefault();
 
-        var opt = 2;
-        $.ajax({
-          type: "POST",
-          url: "dataarticulo.php",
-          data: {
-            objDatosColumna: JSON.stringify(objetofacturajson),
-            option: opt,
-            idcliente: document.getElementById("dropcliente").value,
-            idvendedor: document.getElementById("dropvendedor").value,
-            numerofactura: document.getElementById("txtNoFactura").value,
-            fechafactura: document.getElementById("start").value
-          },
-          success: function(data) {
-            alert(data);
-            reloadpage();
+        tablalistadosdata = tablaListado
+          .rows()
+          .data();
 
-          }
-        });
+        objfactura = [];
+        var data = tablaListado.data();
+
+        for (i = 0; i < data.length; i++) {
+          objfactura.push(data[i]);
+        }
+        console.log(objfactura);
+
+        /*         var opt = 2;
+                $.ajax({
+                  type: "POST",
+                  url: "dataarticulo.php",
+                  data: {
+                    objDatosColumna: JSON.stringify(tablaListado.rows()),
+                    option: opt,
+                    idcliente: document.getElementById("dropcliente").value,
+                    idvendedor: document.getElementById("dropvendedor").value,
+                    numerofactura: document.getElementById("txtNoFactura").value,
+                    fechafactura: document.getElementById("start").value
+                  },
+                  success: function(data) {
+                    console.log(tablaListado.rows());
+                    alert(data);
+                    reloadpage();
+
+                  }
+                }); */
       });
     });
 
     // Delete function
     // Eliminamos el elemento padre del boton > [Tabla]
-    function eliminar(id) {
+    function eliminar() {
       $("#table_productos").on('click', '.btn-danger', function(e) {
         e.preventDefault();
         tablaListado
@@ -381,11 +308,6 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 
     function reloadpage() {
       location.reload();
-    }
-
-    function editar(data1) {
-      console.log(data1);
-
     }
   </script>
 
@@ -410,95 +332,6 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
             $('#idp').val(data.result.id);
           }
         });
-      });
-    });
-  </script>
-
-  <script>
-    // TEST DATATABLE
-    var editor; // use a global for the submit and return data rendering in the examples
-
-    $(document).ready(function() {
-      editor = new $.fn.dataTable.Editor({
-        "ajax": "staff.php",
-        "table": "#example",
-        "fields": [{
-          "label": "First name:",
-          "name": "first_name"
-        }, {
-          "label": "Last name:",
-          "name": "last_name"
-        }, {
-          "label": "Position:",
-          "name": "position"
-        }, {
-          "label": "Office:",
-          "name": "office"
-        }, {
-          "label": "Extension:",
-          "name": "extn"
-        }, {
-          "label": "Start date:",
-          "name": "start_date",
-          "type": "datetime"
-        }, {
-          "label": "Salary:",
-          "name": "salary"
-        }]
-      });
-
-      // Edit record
-      $('#example').on('click', 'a.editor_edit', function(e) {
-        e.preventDefault();
-
-        editor.edit($(this).closest('tr'), {
-          title: 'Edit record',
-          buttons: 'Update'
-        });
-      });
-
-      // Delete a record
-      $('#example').on('click', 'a.editor_remove', function(e) {
-        e.preventDefault();
-
-        editor.remove($(this).closest('tr'), {
-          title: 'Delete record',
-          message: 'Are you sure you wish to remove this record?',
-          buttons: 'Delete'
-        });
-      });
-
-      $('#example').DataTable({
-        ajax: "staff.php",
-        columns: [{
-            data: null,
-            render: function(data, type, row) {
-              // Combine the first and last names into a single table field
-              return data.first_name + ' ' + data.last_name;
-            }
-          },
-          {
-            data: "position"
-          },
-          {
-            data: "office"
-          },
-          {
-            data: "extn"
-          },
-          {
-            data: "start_date"
-          },
-          {
-            data: "salary",
-            render: $.fn.dataTable.render.number(',', '.', 0, '$')
-          },
-          {
-            data: null,
-            className: "center",
-            defaultContent: '<a href="" class="editor_edit">Edit</a> / <a href="" class="editor_remove">Delete</a>'
-          }
-        ]
       });
     });
   </script>

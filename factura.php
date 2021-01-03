@@ -242,6 +242,9 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
     var objetofacturajson;
     var jsonn;
 
+    var data1 = [];
+    var id = 1;
+
     $(document).ready(function() {
       dataSet = [];
       objetofacturajson = [];
@@ -284,18 +287,20 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
       $('#btnagregarproducto').click(function(e) {
         e.preventDefault();
         e.stopPropagation();
+
+        var idp = document.getElementById("idp").value;
         var NombreP = document.getElementById("txtnombreP").value;
         var CantidadP = document.getElementById("txtdeseado").value;
         var PrecioP = document.getElementById("txtprecio").value;
         var DescuentoP = document.getElementById("txtdescuento").value;
-        var idp = document.getElementById("idp").value;
 
-        // var bteliminar = `<button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="eliminar('${idp}')"><i class='fa fa-trash'></i></button>`
-        var bteliminar = `<button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="eliminar()"><i class='fa fa-trash'></i></button>`
-        // var bteliminar = `<button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="eliminar2(${tablaListado.data()})"><i class='fa fa-trash'></i></button>`
-        var bteditar = `<button id='btnEditar' class='btn btn-success btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="Editar('${idp}')"><i class='fa fa-edit'></i></button>`
+        var bteliminar = `<button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="eliminar('${id}')"><i class='fa fa-trash'></i></button>`
+        var bteditar = `<button id='btnEditar' class='btn btn-success btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="editar('${id}')"><i class='fa fa-edit'></i></button>`
 
-        var data1 = [idp, NombreP, CantidadP, PrecioP, bteliminar, bteditar];
+        data1 = [idp, NombreP, CantidadP, PrecioP, bteliminar, bteditar];
+
+        data1JSON = JSON.stringify(data1);
+        console.log(data1JSON)
 
         dataSet.push(data1);
 
@@ -310,6 +315,8 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
           CantidadP: CantidadP,
           PrecioP: PrecioP,
         });
+
+        id += 1;
       });
 
       // Save the DataTable on the Database
@@ -333,16 +340,23 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 
     // Delete function
     // Eliminamos el elemento padre del boton > [Tabla]
-    function eliminar() {
+    function eliminar(id) {
       $("#table_productos").on('click', '.btn-danger', function(e) {
         e.preventDefault();
         // $(this).parent().parent().remove();
         //tablaListado.row($(this).parent().parent()).remove().draw();
+
+        //data1.shift(id, 6);
+
         tablaListado
           .row($(this).parents('tr'))
           .remove()
           .draw();
       });
+    }
+
+    function editar(data1) {
+      console.log(data1);
     }
   </script>
 
@@ -369,28 +383,6 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
         });
       });
     });
-  </script>
-
-  <script>
-    /*     $(document).ready(function() {
-      $('#btnagregarproducto').click(function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        var retorno = '';
-        var NombreP = document.getElementById("txtnombreP").value;
-        var CantidadP = document.getElementById("txtdeseado").value;
-        var PrecioP = document.getElementById("txtprecio").value;
-        var DescuentoP = document.getElementById("txtdescuento").value;
-        var idp = document.getElementById("idp").value;
-       
-        retorno = retorno + '<tr><td>' + idp + '</td><td>' +
-          NombreP + '</td><td>' + CantidadP + '</td><td>' +
-          PrecioP + `</td><td><button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="Eliminar('${idp}')"><i class='fa fa-trash'></i></button></td><td><button id='btnActualizar' type='button' class='btn btn-success btn-sm rounded-0' OnClick="Actualizar('${idp}')"><i class='fa fa-edit'></button></td></tr>`;
-         
-
-        $('#table_productos').append(retorno);
-      });
-    }); */
   </script>
 
   <script>

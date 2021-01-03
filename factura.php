@@ -140,7 +140,6 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
                     </div>
                   </td>
                 </tr>
-
                 <tr>
                   <td>Nombre</td>
                   <td>
@@ -148,31 +147,26 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
                     <input id="idp" class="form-control" type="hidden">
                   </td>
                 </tr>
-
                 <tr>
                   <td>Disponible</td>
                   <td>
                     <input id="txtcantidad" type="number" class="form-control" name="txtcantidad" placeholder="Disponible" readonly>
                   </td>
                 </tr>
-
                 <tr>
                   <td>Deseado</td>
                   <td>
                     <input id="txtdeseado" type="number" class="form-control" min="1" max=`50` name="txtdeseado" placeholder="Cantidad">
                   </td>
                 </tr>
-
                 <tr>
                   <td>Precio</td>
                   <td><input type="text" class="form-control" id="txtprecio" placeholder="Precio" readonly></td>
                 </tr>
-
                 <tr>
                   <td>Descuento</td>
                   <td><input type="number" class="form-control" placeholder="Descuento" min="1" max="50" step="1" id="txtdescuento"></td>
                 </tr>
-
               </tbody>
             </table>
 
@@ -180,15 +174,20 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
               <button id="btnagregarproducto" class="btn btn-primary">Agregar Producto</button>
             </div>
 
-
             <div class="row">
               <div class="col-lg-12">
                 <table id="table_productos" class="table table-bordered  display nowrap" cellspacing="0" width="100%">
-
-
-
+                  <thead>
+                    <tr>
+                      <th>Codigo</th>
+                      <th>Codigo</th>
+                      <th>Cantidad</th>
+                      <th>Precio</th>
+                      <th>Eliminar</th>
+                      <th>Editar</th>
+                    </tr>
+                  </thead>
                 </table>
-
               </div>
             </div>
 
@@ -251,37 +250,51 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
       jsonn = "";
 
       // Datatable init
+      // tablaListado = $("#table_productos").DataTable({
+      //   responsive: true,
+      //   dom: 'Bfrtip',
+      //   buttons: [
+      //     'print'
+      //   ],
+      //   select: true,
+      //   "data": dataSet,
+      //   "columns": [{
+      //       "title": "Codigo"
+      //     },
+      //     {
+      //       "title": "Nombre"
+      //     },
+      //     {
+      //       "title": "Cantidad"
+      //     },
+      //     {
+      //       "title": "Precio"
+      //     },
+      //     {
+      //       "title": "Eliminar"
+      //     },
+      //     {
+      //       "title": "Editar"
+      //     }
+      //   ],
+      //   "ordering": false,
+      //   paging: false,
+      //   scrollY: 400,
+      // });
+
+
+
       tablaListado = $("#table_productos").DataTable({
         responsive: true,
         dom: 'Bfrtip',
         buttons: [
           'print'
         ],
-        select: true,
-        "data": dataSet,
-        "columns": [{
-            "title": "codigoproducto"
-          },
-          {
-            "title": "nombreproducto"
-          },
-          {
-            "title": "cantidadproducto"
-          },
-          {
-            "title": "precio"
-          },
-          {
-            "title": "Eliminar"
-          },
-          {
-            "title": "Editar"
-          }
-        ],
         "ordering": false,
         paging: false,
         scrollY: 400,
       });
+
 
       // Pushing the data from the inputs to the Datatable
       $('#btnagregarproducto').click(function(e) {
@@ -297,24 +310,34 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
         var bteliminar = `<button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="eliminar('${id}')"><i class='fa fa-trash'></i></button>`
         var bteditar = `<button id='btnEditar' class='btn btn-success btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="editar('${id}')"><i class='fa fa-edit'></i></button>`
 
-        data1 = [idp, NombreP, CantidadP, PrecioP, bteliminar, bteditar];
-
-        data1JSON = JSON.stringify(data1);
-        console.log(data1JSON)
-
-        dataSet.push(data1);
-
-        tablaListado.clear();
-        tablaListado.rows.add(dataSet);
-        tablaListado.draw();
+        tablaListado.row.add([
+          idp,
+          NombreP,
+          CantidadP,
+          PrecioP,
+          bteliminar,
+          bteditar
+        ]).draw(false);
 
 
-        objetofacturajson.push({
-          idp: idp,
-          NombreP: NombreP,
-          CantidadP: CantidadP,
-          PrecioP: PrecioP,
-        });
+        // data1 = [idp, NombreP, CantidadP, PrecioP, bteliminar, bteditar];
+
+        // data1JSON = JSON.stringify(data1);
+        // console.log(data1JSON)
+
+        // dataSet.push(data1);
+
+        // tablaListado.clear();
+        // tablaListado.rows.add(dataSet);
+        // tablaListado.draw();
+
+
+        // objetofacturajson.push({
+        //   idp: idp,
+        //   NombreP: NombreP,
+        //   CantidadP: CantidadP,
+        //   PrecioP: PrecioP,
+        // });
 
         id += 1;
       });
@@ -349,11 +372,6 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
     function eliminar(id) {
       $("#table_productos").on('click', '.btn-danger', function(e) {
         e.preventDefault();
-        // $(this).parent().parent().remove();
-        //tablaListado.row($(this).parent().parent()).remove().draw();
-
-        //data1.shift(id, 6);
-
         tablaListado
           .row($(this).parents('tr'))
           .remove()
@@ -361,10 +379,10 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
       });
     }
 
-    function reloadpage()
-    {
-        location.reload();
+    function reloadpage() {
+      location.reload();
     }
+
     function editar(data1) {
       console.log(data1);
 

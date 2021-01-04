@@ -180,7 +180,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
                   <thead>
                     <tr>
                       <th>Codigo</th>
-                      <th>Codigo</th>
+                      <th>Nombre</th>
                       <th>Cantidad</th>
                       <th>Precio</th>
                       <th>Eliminar</th>
@@ -259,38 +259,42 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
       // Save the DataTable on the Database
       $('#brnguardarfactura').click(function(e) {
         e.preventDefault();
+        var objDatosColumna;
+        // Let's put this in the object like you want and convert to JSON (Note: jQuery will also do  this for you on the Ajax request)
+        tableToJSON($("#table_productos"));
 
-        tablalistadosdata = tablaListado
-          .rows()
-          .data();
-
-        objfactura = [];
-        var data = tablaListado.data();
-
-        for (i = 0; i < data.length; i++) {
-          objfactura.push(data[i]);
+        function tableToJSON(tblObj) {
+          var data = [];
+          var $headers = $(tblObj).find("th");
+          var $rows = $(tblObj).find("tbody tr").each(function(index) {
+            $cells = $(this).find("td");
+            data[index] = {};
+            $cells.each(function(cellIndex) {
+              data[index][$($headers[cellIndex]).text()] = $(this).text();
+            });
+          });
+          objDatosColumna = JSON.stringify(data);
         }
-        console.log(objfactura);
 
-        /*         var opt = 2;
-                $.ajax({
-                  type: "POST",
-                  url: "dataarticulo.php",
-                  data: {
-                    objDatosColumna: JSON.stringify(tablaListado.rows()),
-                    option: opt,
-                    idcliente: document.getElementById("dropcliente").value,
-                    idvendedor: document.getElementById("dropvendedor").value,
-                    numerofactura: document.getElementById("txtNoFactura").value,
-                    fechafactura: document.getElementById("start").value
-                  },
-                  success: function(data) {
-                    console.log(tablaListado.rows());
-                    alert(data);
-                    reloadpage();
+        var opt = 2;
+        $.ajax({
+          type: "POST",
+          url: "dataarticulo.php",
+          data: {
+            objDatosColumna: objDatosColumna,
+            option: opt,
+            idcliente: document.getElementById("dropcliente").value,
+            idvendedor: document.getElementById("dropvendedor").value,
+            numerofactura: document.getElementById("txtNoFactura").value,
+            fechafactura: document.getElementById("start").value
+          },
+          success: function(data) {
+            console.log(objDatosColumna);
+            alert(data);
+            // reloadpage();
 
-                  }
-                }); */
+          }
+        });
       });
     });
 

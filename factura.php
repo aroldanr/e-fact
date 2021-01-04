@@ -52,12 +52,13 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
         </tr>
         <tr>
           <td>Fecha</td>
+
           <td><input type="date" class="form-control" id="start" name="txtfecha"></td>
         </tr>
         <tr>
           <td>Cliente</td>
           <td>
-            <select id="dropcliente" style="width: 100%" class="js-example-basic-single js-states" name="dropcliente">
+            <select id=" dropcliente" style="width: 100%" class="js-example-basic-single js-states" name="dropcliente">
 
               <?php
               // include 'conexion.php';  
@@ -205,6 +206,17 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 
     </div>
   </div>
+
+  <script>
+    var now = new Date();
+
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+    var today = now.getFullYear() + "-" + (month) + "-" + (day);
+
+    $('#start').val(today);
+  </script>
 
   <script>
     var tablaListado;

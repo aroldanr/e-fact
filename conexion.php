@@ -1,5 +1,5 @@
 <?php
-header('Content-Type: text/html; charset=utf-8');
+//header('Content-Type: text/html; charset=utf-8');
 
 $EMPRESA = 'eFact :: DISTRIBUIDORA JAZM&Iacute;N';
 $DB_HOST = 'localhost';
@@ -13,6 +13,5 @@ $DB_PASS = "";
 $cnn = new mysqli($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
 
 if ($cnn->connect_errno) {
-    echo "Fallo al conectar a MySQL: (" . $cnn->connect_errno . ") " . $cnn->
-        connect_error;
+    echo "Fallo al conectar a MySQL: (" . $cnn->connect_errno . ") " . $cnn->connect_error;
 }

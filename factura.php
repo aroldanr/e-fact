@@ -58,7 +58,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
         <tr>
           <td>Cliente</td>
           <td>
-            <select id=" dropcliente" style="width: 100%" class="js-example-basic-single js-states" name="dropcliente">
+            <select id="dropcliente" style="width: 100%" class="js-example-basic-single js-states" name="dropcliente">
 
               <?php
               // include 'conexion.php';  
@@ -172,9 +172,15 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
             </table>
 
             <div class="row">
-              <button id="btnagregarproducto" class="btn btn-primary">Agregar Producto</button>
-            </div>
+              <div class="col-sm-6">
+                <button id="btnagregarproducto" class="btn btn-primary">Agregar Producto</button>
+              </div>
+              <div class="col-sm-6">
+                <input type="number" class="form-control" id="txttotalvalue" value="0">
+              </div>
 
+            </div>
+            <br><br>
             <div class="row">
               <div class="col-lg-12">
                 <table id="table_productos" class="table table-bordered  display nowrap" cellspacing="0" width="100%">
@@ -242,6 +248,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
         "ordering": false,
         paging: false,
         scrollY: 400,
+
       });
 
 
@@ -255,6 +262,9 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
         var CantidadP = document.getElementById("txtdeseado").value;
         var PrecioP = document.getElementById("txtprecio").value;
         var DescuentoP = document.getElementById("txtdescuento").value;
+        var tot = document.getElementById("txttotalvalue").value;
+
+        $('#txttotalvalue').val(parseFloat(tot) + parseFloat(PrecioP));
 
         var bteliminar = `<button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="eliminar()"><i class='fa fa-trash'></i></button>`
 
@@ -342,10 +352,16 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
             option: opt
           },
           success: function(data) {
-            $('#txtnombreP').val(data.result.nombre_articulo);
-            $('#txtprecio').val(data.result.precio_articulo);
-            $('#txtcantidad').val(data.result.existencia_articulo);
-            $('#idp').val(data.result.id);
+            if (data.result.existencia_articulo < 1) {
+              alert("No hay articulos disponibles");
+
+            } else {
+              $('#txtnombreP').val(data.result.nombre_articulo);
+              $('#txtprecio').val(data.result.precio_articulo);
+              $('#txtcantidad').val(data.result.existencia_articulo);
+              $('#idp').val(data.result.id);
+            }
+
           }
         });
       });

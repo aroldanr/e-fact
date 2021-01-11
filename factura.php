@@ -175,9 +175,15 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
               <div class="col-sm-6">
                 <button id="btnagregarproducto" class="btn btn-primary">Agregar Producto</button>
               </div>
-              <div class="col-sm-6">
-                <input type="number" class="form-control" id="txttotalvalue" value="0">
+              <div class="form-group row">
+                <label for="txttotalvalue" class="col-sm-2 col-form-label" style="font-weight: bold;">Total</label>
+                <div class="col-sm-3">
+                  <input type="number" class="form-control" id="txttotalvalue" value="0">
+                </div>
               </div>
+              <!--  <div class="col-sm-6">
+                <input type="number" class="form-control" id="txttotalvalue" value="0">
+              </div> -->
 
             </div>
             <br><br>
@@ -263,9 +269,11 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
         var PrecioP = document.getElementById("txtprecio").value;
         var DescuentoP = document.getElementById("txtdescuento").value;
         var tot = document.getElementById("txttotalvalue").value;
+        var pdeseado = document.getElementById("txtdeseado").value;
 
-        $('#txttotalvalue').val(parseFloat(tot) + parseFloat(PrecioP));
+        var productoporcantidad = parseFloat(PrecioP) * parseFloat(pdeseado);
 
+        $('#txttotalvalue').val(parseFloat(tot) + parseFloat(productoporcantidad));
         var bteliminar = `<button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="eliminar()"><i class='fa fa-trash'></i></button>`
 
         tablaListado.row.add([
@@ -308,7 +316,8 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
             idcliente: document.getElementById("dropcliente").value,
             idvendedor: document.getElementById("dropvendedor").value,
             numerofactura: document.getElementById("txtNoFactura").value,
-            fechafactura: document.getElementById("start").value
+            fechafactura: document.getElementById("start").value,
+            totalfactura: document.getElementById("txttotalvalue").value
           },
           success: function(data) {
             console.log(objDatosColumna);
@@ -330,6 +339,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
           .remove()
           .draw();
       });
+
     }
 
     function reloadpage() {

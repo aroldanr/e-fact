@@ -27,6 +27,7 @@
          $idvendedor = $_POST["idvendedor"];
          $numerofactura = $_POST["numerofactura"];
          $fechafactura = $_POST["fechafactura"];
+         $totalfactura = $_POST["totalfactura"];
 
          $birthday = new DateTime('1879-03-14');
 
@@ -40,10 +41,12 @@
             $PrecioP = $factura["Precio"];
 
 
-            $query = "INSERT INTO det_venta(id_enc_venta,id_articulo,cantidad,precio,descuento,total) VALUES($idenc_venta,$idp,$CantidadP,$PrecioP,$PrecioP,$PrecioP)";
+            $query = "INSERT INTO det_venta(id_enc_venta,id_articulo,cantidad,precio,descuento,total) VALUES($idenc_venta,$idp,$CantidadP,$PrecioP,$PrecioP,$totalfactura)";
             $resultado = $cnn->query($query);
             // printf ("New Record has id %d.\n", $cnn->insert_id);
 
+            $queryupdate = "UPDATE articulo SET existencia_articulo = (existencia_articulo - $CantidadP) WHERE id = $idp";
+            $updateres = $cnn->query($queryupdate);
 
             if ($resultado) {
                echo "La factura se ha guardado correctamente";

@@ -6,7 +6,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 
 <html lang="en">
 
-
+<!-- 
 <head>
 
   <script>
@@ -15,12 +15,10 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
     });
   </script>
 
-</head>
+</head> -->
 
 <body>
-  </br>
-  </br>
-  <div class="container" style="background-color: white;">
+  <div class="container" style="background-color: white; margin-top: 5rem;">
     <h2>Registro de Facturas</h2>
     <p>Registros marcados con un * son requeridos</p>
     <table class="table table-bordered">
@@ -54,6 +52,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
         </tr>
         <tr>
           <td>Fecha</td>
+
           <td><input type="date" class="form-control" id="start" name="txtfecha"></td>
         </tr>
         <tr>
@@ -142,7 +141,6 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
                     </div>
                   </td>
                 </tr>
-
                 <tr>
                   <td>Nombre</td>
                   <td>
@@ -150,50 +148,61 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
                     <input id="idp" class="form-control" type="hidden">
                   </td>
                 </tr>
-
                 <tr>
                   <td>Disponible</td>
                   <td>
                     <input id="txtcantidad" type="number" class="form-control" name="txtcantidad" placeholder="Disponible" readonly>
                   </td>
                 </tr>
-
                 <tr>
                   <td>Deseado</td>
                   <td>
                     <input id="txtdeseado" type="number" class="form-control" min="1" max=`50` name="txtdeseado" placeholder="Cantidad">
                   </td>
                 </tr>
-
                 <tr>
                   <td>Precio</td>
                   <td><input type="text" class="form-control" id="txtprecio" placeholder="Precio" readonly></td>
                 </tr>
-
                 <tr>
                   <td>Descuento</td>
                   <td><input type="number" class="form-control" placeholder="Descuento" min="1" max="50" step="1" id="txtdescuento"></td>
                 </tr>
-
               </tbody>
             </table>
 
             <div class="row">
-              <button id="btnagregarproducto" class="btn btn-primary">Agregar Producto</button>
-            </div>
-
-            
-              <div class="row">
-                <div class="col-lg-12">
-                  <table id="table_productos" class="table table-bordered  display nowrap" cellspacing="0" width="100%">
-
-
-
-                  </table>
-
+              <div class="col-sm-6">
+                <button id="btnagregarproducto" class="btn btn-primary">Agregar Producto</button>
+              </div>
+              <div class="form-group row">
+                <label for="txttotalvalue" class="col-sm-2 col-form-label" style="font-weight: bold;">Total</label>
+                <div class="col-sm-3">
+                  <input type="number" class="form-control" id="txttotalvalue" value="0">
                 </div>
               </div>
-         
+              <!--  <div class="col-sm-6">
+                <input type="number" class="form-control" id="txttotalvalue" value="0">
+              </div> -->
+
+            </div>
+            <br><br>
+            <div class="row">
+              <div class="col-lg-12">
+                <table id="table_productos" class="table table-bordered  display nowrap" cellspacing="0" width="100%">
+                  <thead>
+                    <tr>
+                      <th>Codigo</th>
+                      <th>Nombre</th>
+                      <th>Cantidad</th>
+                      <th>Precio</th>
+                      <th>Eliminar</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+            </div>
+
             </br></br>
             <div class="form-row">
               <div class="col-md-6">
@@ -211,61 +220,130 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
   </div>
 
   <script>
+    var now = new Date();
+
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+    var today = now.getFullYear() + "-" + (month) + "-" + (day);
+
+    $('#start').val(today);
+  </script>
+
+  <script>
+    var tablaListado;
+    var editor;
+    var dataSet;
+    var objetofacturajson;
+    var jsonn;
+
+    var tablalistadosdata;
+    var objfactura;
+
     $(document).ready(function() {
+      dataSet = [];
+      objetofacturajson = [];
+      jsonn = "";
 
-      var dataSet = [];
-
-      var tablaListado = $("#table_productos").DataTable({
+      tablaListado = $("#table_productos").DataTable({
         responsive: true,
-        buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
-        "data": dataSet,
-        "columns": [{
-            "title": "codigoproducto"
-          },
-          {
-            "title": "nombreproducto"
-          },
-          {
-            "title": "cantidadproducto"
-          },
-          {
-            "title": "precio"
-          },
-          {
-            "title": "Eliminar"
-          },
-          {
-            "title": "Editar"
-          }
+        dom: 'Bfrtip',
+        buttons: [
+          'print'
+        ],
+        "ordering": false,
+        paging: false,
+        scrollY: 400,
 
-        ]
       });
 
 
-
+      // Pushing the data from the inputs to the Datatable
       $('#btnagregarproducto').click(function(e) {
         e.preventDefault();
         e.stopPropagation();
+
+        var idp = document.getElementById("idp").value;
         var NombreP = document.getElementById("txtnombreP").value;
         var CantidadP = document.getElementById("txtdeseado").value;
         var PrecioP = document.getElementById("txtprecio").value;
         var DescuentoP = document.getElementById("txtdescuento").value;
-        var idp = document.getElementById("idp").value;
-        var bteliminar = `<button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="Eliminar('${idp}')"><i class='fa fa-trash'></i></button>`
-        var bteditar = `<button id='btnEditar' class='btn btn-success btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="Editar('${idp}')"><i class='fa fa-edit'></i></button>`
+        var tot = document.getElementById("txttotalvalue").value;
+        var pdeseado = document.getElementById("txtdeseado").value;
 
-        var data1 = [idp, NombreP, CantidadP, PrecioP,bteliminar,bteditar];
+        var productoporcantidad = parseFloat(PrecioP) * parseFloat(pdeseado);
 
-        dataSet.push(data1);
+        $('#txttotalvalue').val(parseFloat(tot) + parseFloat(productoporcantidad));
+        var bteliminar = `<button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="eliminar()"><i class='fa fa-trash'></i></button>`
 
-        tablaListado.clear();
-        tablaListado.rows.add(dataSet);
-        tablaListado.draw();
-
-
+        tablaListado.row.add([
+          idp,
+          NombreP,
+          CantidadP,
+          PrecioP,
+          bteliminar
+        ]).draw(false);
 
       });
+
+      // Save the DataTable on the Database
+      $('#brnguardarfactura').click(function(e) {
+        e.preventDefault();
+        var objDatosColumna;
+        // Let's put this in the object like you want and convert to JSON (Note: jQuery will also do  this for you on the Ajax request)
+        tableToJSON($("#table_productos"));
+
+        function tableToJSON(tblObj) {
+          var data = [];
+          var $headers = $(tblObj).find("th");
+          var $rows = $(tblObj).find("tbody tr").each(function(index) {
+            $cells = $(this).find("td");
+            data[index] = {};
+            $cells.each(function(cellIndex) {
+              data[index][$($headers[cellIndex]).text()] = $(this).text();
+            });
+          });
+          objDatosColumna = JSON.stringify(data);
+        }
+
+        var opt = 2;
+        $.ajax({
+          type: "POST",
+          url: "dataarticulo.php",
+          data: {
+            objDatosColumna: objDatosColumna,
+            option: opt,
+            idcliente: document.getElementById("dropcliente").value,
+            idvendedor: document.getElementById("dropvendedor").value,
+            numerofactura: document.getElementById("txtNoFactura").value,
+            fechafactura: document.getElementById("start").value,
+            totalfactura: document.getElementById("txttotalvalue").value
+          },
+          success: function(data) {
+            console.log(objDatosColumna);
+            alert(data);
+            // reloadpage();
+
+          }
+        });
+      });
     });
+
+    // Delete function
+    // Eliminamos el elemento padre del boton > [Tabla]
+    function eliminar() {
+      $("#table_productos").on('click', '.btn-danger', function(e) {
+        e.preventDefault();
+        tablaListado
+          .row($(this).parents('tr'))
+          .remove()
+          .draw();
+      });
+    }
+
+    function reloadpage() {
+      location.reload();
+    }
   </script>
 
   <script>
@@ -283,10 +361,16 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
             option: opt
           },
           success: function(data) {
-            $('#txtnombreP').val(data.result.nombre_articulo);
-            $('#txtprecio').val(data.result.precio_articulo);
-            $('#txtcantidad').val(data.result.existencia_articulo);
-            $('#idp').val(data.result.id);
+            if (data.result.existencia_articulo < 1) {
+              alert("No hay articulos disponibles");
+
+            } else {
+              $('#txtnombreP').val(data.result.nombre_articulo);
+              $('#txtprecio').val(data.result.precio_articulo);
+              $('#txtcantidad').val(data.result.existencia_articulo);
+              $('#idp').val(data.result.id);
+            }
+
           }
         });
       });
@@ -294,58 +378,9 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
   </script>
 
   <script>
-    /*     $(document).ready(function() {
-      $('#btnagregarproducto').click(function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        var retorno = '';
-        var NombreP = document.getElementById("txtnombreP").value;
-        var CantidadP = document.getElementById("txtdeseado").value;
-        var PrecioP = document.getElementById("txtprecio").value;
-        var DescuentoP = document.getElementById("txtdescuento").value;
-        var idp = document.getElementById("idp").value;
-       
-        retorno = retorno + '<tr><td>' + idp + '</td><td>' +
-          NombreP + '</td><td>' + CantidadP + '</td><td>' +
-          PrecioP + `</td><td><button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="Eliminar('${idp}')"><i class='fa fa-trash'></i></button></td><td><button id='btnActualizar' type='button' class='btn btn-success btn-sm rounded-0' OnClick="Actualizar('${idp}')"><i class='fa fa-edit'></button></td></tr>`;
-         
-
-        $('#table_productos').append(retorno);
-      });
-    }); */
-  </script>
-
-  <script>
-    $('#brnguardarfactura').click(function(e) {
-      e.preventDefault();
-      var $objCuerpoTabla = $("#table_productos").children().prev().parent();
-      $objCuerpoTabla.find("tbody tr").each(function() {
-
-        objDatosColumna = new Array();
-        var opt = 2;
-        var id = $(this).find('td').eq(0).html();
-        var nombre = $(this).find('td').eq(1).html();
-        var cantidad = $(this).find('td').eq(2).html();
-        var valorTot = $(this).find('td').eq(3).html();
-
-        valor = new Array(id, nombre, cantidad, valorTot);
-        objDatosColumna.push(valor);
-
-        $.ajax({
-          type: "POST",
-          url: "dataarticulo.php",
-          data: {
-            objDatosColumna: objDatosColumna,
-            option: opt
-          },
-
-          success: function(data) {
-            console.log(objDatosColumna);
-
-          }
-        });
-      });
-
+    $(document).ready(function() {
+      $('#dropcliente').select2();
+      $('#dropvendedor').select2();
     });
   </script>
 
@@ -355,12 +390,5 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 require_once 'footer.php';
 
 ?>
-
-<script>
-  $(document).ready(function() {
-    $('#dropcliente').select2();
-    $('#dropvendedor').select2();
-  });
-</script>
 
 </html>

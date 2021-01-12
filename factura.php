@@ -196,6 +196,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
                       <th>Nombre</th>
                       <th>Cantidad</th>
                       <th>Precio</th>
+                      <th>Total Producto</th>
                       <th>Eliminar</th>
                     </tr>
                   </thead>
@@ -271,9 +272,10 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
         var tot = document.getElementById("txttotalvalue").value;
         var pdeseado = document.getElementById("txtdeseado").value;
 
+        //esta parte es para calcular el total por producto y total global
         var productoporcantidad = parseFloat(PrecioP) * parseFloat(pdeseado);
-
         $('#txttotalvalue').val(parseFloat(tot) + parseFloat(productoporcantidad));
+        //fin
         var bteliminar = `<button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="eliminar()"><i class='fa fa-trash'></i></button>`
 
         tablaListado.row.add([
@@ -281,6 +283,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
           NombreP,
           CantidadP,
           PrecioP,
+          productoporcantidad,
           bteliminar
         ]).draw(false);
 
@@ -322,7 +325,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
           success: function(data) {
             console.log(objDatosColumna);
             alert(data);
-            // reloadpage();
+            reloadpage();
 
           }
         });

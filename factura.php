@@ -275,8 +275,9 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
         //esta parte es para calcular el total por producto y total global
         var productoporcantidad = parseFloat(PrecioP) * parseFloat(pdeseado);
         $('#txttotalvalue').val(parseFloat(tot) + parseFloat(productoporcantidad));
+        var valortotaltxt = $('#txttotalvalue').val();
         //fin
-        var bteliminar = `<button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="eliminar()"><i class='fa fa-trash'></i></button>`
+        var bteliminar = `<button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="eliminar('${productoporcantidad}')"><i class='fa fa-trash'></i></button>`
 
         tablaListado.row.add([
           idp,
@@ -334,14 +335,21 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 
     // Delete function
     // Eliminamos el elemento padre del boton > [Tabla]
-    function eliminar() {
+    function eliminar(valortotal) {
       $("#table_productos").on('click', '.btn-danger', function(e) {
         e.preventDefault();
         tablaListado
           .row($(this).parents('tr'))
           .remove()
           .draw();
+
       });
+
+
+      var valortotaltxt2 = $('#txttotalvalue').val();
+      $('#txttotalvalue').val(parseFloat(valortotaltxt2) - parseFloat(valortotal));
+      console.log(valortotaltxt2);
+
 
     }
 

@@ -157,7 +157,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
                 <tr>
                   <td>Deseado</td>
                   <td>
-                    <input id="txtdeseado" type="number" class="form-control" min="1" max=`50` name="txtdeseado" placeholder="Cantidad">
+                    <input id="txtdeseado" type="number" class="form-control" min="1" max="50" name="txtdeseado" placeholder="Cantidad">
                   </td>
                 </tr>
                 <tr>
@@ -232,6 +232,22 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
   </script>
 
   <script>
+    function maxItem() {
+      //$('#txtdeseado').on('click', function(e) {
+      //e.preventDefault();
+      var deseado = $('#txtdeseado')[0].value;
+      var max = $('#txtcantidad')[0].value;
+      // alert(`${max} > ${deseado}`);
+      if (deseado <= max) {
+        alert(true)
+      } else {
+        alert(false)
+      }
+      //})
+    }
+  </script>
+
+  <script>
     var tablaListado;
     var editor;
     var dataSet;
@@ -263,6 +279,8 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
       $('#btnagregarproducto').click(function(e) {
         e.preventDefault();
         e.stopPropagation();
+
+        maxItem();
 
         var idp = document.getElementById("idp").value;
         var NombreP = document.getElementById("txtnombreP").value;

@@ -90,8 +90,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<script type="text/javascript" src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
 
 	<!-- Editor -->
-	<link rel="stylesheet" type="text/css" href="css/editor.dataTables.css">
-	<script type="text/javascript" src="js/dataTables.editor.js"></script>
+	<!-- <link rel="stylesheet" type="text/css" href="css/editor.dataTables.css">
+	<script type="text/javascript" src="js/dataTables.editor.js"></script> -->
 
 	<!-- 	<script type="text/javascript" charset="utf8" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></script>
 	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap.min.css"></script>

@@ -185,7 +185,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 												<p>
 													<?php
 													@session_start();
-													echo $_SESSION['usuario'];
+													//echo $_SESSION['usuario'];
 													?>
 													<span>Administrador</span>
 												</p>

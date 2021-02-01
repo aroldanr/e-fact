@@ -245,11 +245,11 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
     var tablalistadosdata;
     var objfactura;
 
-    var foo;
     var deseado;
     var max;
     var deseadoInt;
     var maxInt;
+    var stockBool;
 
     $(document).ready(function() {
       dataSet = [];
@@ -275,31 +275,41 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
         e.stopPropagation();
 
         // Check if the amount of products exist
-        var stockBool = maxItem(e);
+        maxItem(e);
 
-        var idp = document.getElementById("idp").value;
-        var NombreP = document.getElementById("txtnombreP").value;
-        var CantidadP = document.getElementById("txtdeseado").value;
-        var PrecioP = document.getElementById("txtprecio").value;
-        var DescuentoP = document.getElementById("txtdescuento").value;
-        var tot = document.getElementById("txttotalvalue").value;
-        var pdeseado = document.getElementById("txtdeseado").value;
 
-        //esta parte es para calcular el total por producto y total global
-        var productoporcantidad = parseFloat(PrecioP) * parseFloat(pdeseado);
-        $('#txttotalvalue').val(parseFloat(tot) + parseFloat(productoporcantidad));
-        var valortotaltxt = $('#txttotalvalue').val();
-        //fin
-        var bteliminar = `<button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="eliminar('${productoporcantidad}')"><i class='fa fa-trash'></i></button>`
+        console.log(stockBool)
+        if (stockBool == 1) {
+          alert('Producto agregado al recibo')
 
-        tablaListado.row.add([
-          idp,
-          NombreP,
-          CantidadP,
-          PrecioP,
-          productoporcantidad,
-          bteliminar
-        ]).draw(false);
+
+          var idp = document.getElementById("idp").value;
+          var NombreP = document.getElementById("txtnombreP").value;
+          var CantidadP = document.getElementById("txtdeseado").value;
+          var PrecioP = document.getElementById("txtprecio").value;
+          var DescuentoP = document.getElementById("txtdescuento").value;
+          var tot = document.getElementById("txttotalvalue").value;
+          var pdeseado = document.getElementById("txtdeseado").value;
+
+          //esta parte es para calcular el total por producto y total global
+          var productoporcantidad = parseFloat(PrecioP) * parseFloat(pdeseado);
+          $('#txttotalvalue').val(parseFloat(tot) + parseFloat(productoporcantidad));
+          var valortotaltxt = $('#txttotalvalue').val();
+          //fin
+          var bteliminar = `<button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="eliminar('${productoporcantidad}')"><i class='fa fa-trash'></i></button>`
+
+          tablaListado.row.add([
+            idp,
+            NombreP,
+            CantidadP,
+            PrecioP,
+            productoporcantidad,
+            bteliminar
+          ]).draw(false);
+        } else if (stockBool == 0) {
+          alert('No existe esa cantidad de articulos en el inventario');
+        }
+
 
       });
 
@@ -353,13 +363,13 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
       deseadoInt = parseInt(deseado, 10)
       maxInt = parseInt(max, 10)
 
-      console.log(`${deseadoInt} and ${maxInt}`)
+      //console.log(`${deseadoInt} and ${maxInt}`)
 
       if (deseadoInt < maxInt) {
-        alert(true)
+        stockBool = 1;
       } else if (deseadoInt > maxInt) {
-        alert('No existe esa cantidad de articulos en el inventario');
-        foe = false;
+        // alert('No existe esa cantidad de articulos en el inventario');
+        stockBool = 0;
       }
     }
 

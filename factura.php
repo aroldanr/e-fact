@@ -157,7 +157,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
                 <tr>
                   <td>Deseado</td>
                   <td>
-                    <input id="txtdeseado" type="number" class="form-control" min="1" max=`50` name="txtdeseado" placeholder="Cantidad">
+                    <input id="txtdeseado" type="number" class="form-control" min="1" name="txtdeseado" placeholder="Cantidad">
                   </td>
                 </tr>
                 <tr>
@@ -232,6 +232,10 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
   </script>
 
   <script>
+
+  </script>
+
+  <script>
     var tablaListado;
     var editor;
     var dataSet;
@@ -240,6 +244,12 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 
     var tablalistadosdata;
     var objfactura;
+
+    var foo;
+    var deseado;
+    var max;
+    var deseadoInt;
+    var maxInt;
 
     $(document).ready(function() {
       dataSet = [];
@@ -263,6 +273,9 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
       $('#btnagregarproducto').click(function(e) {
         e.preventDefault();
         e.stopPropagation();
+
+        // Check if the amount of products exist
+        var stockBool = maxItem(e);
 
         var idp = document.getElementById("idp").value;
         var NombreP = document.getElementById("txtnombreP").value;
@@ -332,6 +345,25 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
         });
       });
     });
+
+    function maxItem(e) {
+      e.preventDefault();
+      deseado = $('#txtdeseado')[0].value;
+      max = $('#txtcantidad')[0].value;
+      deseadoInt = parseInt(deseado, 10)
+      maxInt = parseInt(max, 10)
+
+      console.log(`${deseadoInt} and ${maxInt}`)
+
+      if (deseadoInt < maxInt) {
+        alert(true)
+      } else if (deseadoInt > maxInt) {
+        alert('No existe esa cantidad de articulos en el inventario');
+        foe = false;
+      }
+    }
+
+
 
     // Delete function
     // Eliminamos el elemento padre del boton > [Tabla]

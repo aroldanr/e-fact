@@ -132,6 +132,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<li class="menu-list"><a href="#"><i class="lnr lnr-cog"></i> <span>Procesos</span></a>
 						<ul class="sub-menu-list">
 							<li><a href="factura.php">Facturaci&oacute;n</a></li>
+							<li><a href="registrofacturasadmin.php">Registro Factura</a></li>
 							<li><a href="compra.php">Compras</a></li>
 						</ul>
 					</li>

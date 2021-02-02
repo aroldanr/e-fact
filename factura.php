@@ -231,9 +231,6 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
     $('#start').val(today);
   </script>
 
-  <script>
-
-  </script>
 
   <script>
     var tablaListado;
@@ -268,7 +265,6 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 
       });
 
-
       // Pushing the data from the inputs to the Datatable
       $('#btnagregarproducto').click(function(e) {
         e.preventDefault();
@@ -277,12 +273,8 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
         // Check if the amount of products exist
         maxItem(e);
 
-
-        console.log(stockBool)
         if (stockBool == 1) {
-          alert('Producto agregado al recibo')
-
-
+          alert('Producto agregado al recibo');
           var idp = document.getElementById("idp").value;
           var NombreP = document.getElementById("txtnombreP").value;
           var CantidadP = document.getElementById("txtdeseado").value;
@@ -309,8 +301,6 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
         } else if (stockBool == 0) {
           alert('No existe esa cantidad de articulos en el inventario');
         }
-
-
       });
 
       // Save the DataTable on the Database
@@ -356,24 +346,20 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
       });
     });
 
+    // Validamos si la cantidad deseada es superior al stock
     function maxItem(e) {
       e.preventDefault();
       deseado = $('#txtdeseado')[0].value;
       max = $('#txtcantidad')[0].value;
-      deseadoInt = parseInt(deseado, 10)
-      maxInt = parseInt(max, 10)
-
-      //console.log(`${deseadoInt} and ${maxInt}`)
+      deseadoInt = parseInt(deseado, 10);
+      maxInt = parseInt(max, 10);
 
       if (deseadoInt < maxInt) {
         stockBool = 1;
       } else if (deseadoInt > maxInt) {
-        // alert('No existe esa cantidad de articulos en el inventario');
         stockBool = 0;
       }
     }
-
-
 
     // Delete function
     // Eliminamos el elemento padre del boton > [Tabla]

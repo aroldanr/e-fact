@@ -162,7 +162,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
                 </tr>
                 <tr>
                   <td>Precio</td>
-                  <td><input type="text" class="form-control" id="txtprecio" placeholder="Precio" readonly></td>
+                  <td><input type="text" class="form-control" id="txtprecio" placeholder="Precio"></td>
                 </tr>
                 <tr>
                   <td>Descuento</td>

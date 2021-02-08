@@ -1,5 +1,5 @@
 <?php
-require_once 'header.php';
+require_once 'header2.php';
 $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 
 ?>
@@ -34,7 +34,6 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
     </div>
 
     <script>
-        var bteliminar = `<button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="eliminar('')"><i class='fa fa-trash'></i></button>`
         $(document).ready(function() {
 
 
@@ -62,9 +61,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
                         "data": "estado"
                     },
                     {
-                        "data": null,
-                        "defaultContent": bteliminar,
-                        "targets": -1
+                        "data": "estado"
                     }
                 ]
             });

@@ -157,12 +157,12 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
                 <tr>
                   <td>Deseado</td>
                   <td>
-                    <input id="txtdeseado" type="number" class="form-control" min="1" max=`50` name="txtdeseado" placeholder="Cantidad">
+                    <input id="txtdeseado" type="number" class="form-control" min="1" name="txtdeseado" placeholder="Cantidad">
                   </td>
                 </tr>
                 <tr>
                   <td>Precio</td>
-                  <td><input type="text" class="form-control" id="txtprecio" placeholder="Precio" readonly></td>
+                  <td><input type="text" class="form-control" id="txtprecio" placeholder="Precio"></td>
                 </tr>
                 <tr>
                   <td>Descuento</td>
@@ -196,6 +196,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
                       <th>Nombre</th>
                       <th>Cantidad</th>
                       <th>Precio</th>
+                      <th>Total Producto</th>
                       <th>Eliminar</th>
                     </tr>
                   </thead>
@@ -230,6 +231,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
     $('#start').val(today);
   </script>
 
+
   <script>
     var tablaListado;
     var editor;
@@ -239,6 +241,12 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 
     var tablalistadosdata;
     var objfactura;
+
+    var deseado;
+    var max;
+    var deseadoInt;
+    var maxInt;
+    var stockBool;
 
     $(document).ready(function() {
       dataSet = [];
@@ -257,33 +265,42 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 
       });
 
-
       // Pushing the data from the inputs to the Datatable
       $('#btnagregarproducto').click(function(e) {
         e.preventDefault();
         e.stopPropagation();
 
-        var idp = document.getElementById("idp").value;
-        var NombreP = document.getElementById("txtnombreP").value;
-        var CantidadP = document.getElementById("txtdeseado").value;
-        var PrecioP = document.getElementById("txtprecio").value;
-        var DescuentoP = document.getElementById("txtdescuento").value;
-        var tot = document.getElementById("txttotalvalue").value;
-        var pdeseado = document.getElementById("txtdeseado").value;
+        // Check if the amount of products exist
+        maxItem(e);
 
-        var productoporcantidad = parseFloat(PrecioP) * parseFloat(pdeseado);
+        if (stockBool == 1) {
+          alert('Producto agregado al recibo');
+          var idp = document.getElementById("idp").value;
+          var NombreP = document.getElementById("txtnombreP").value;
+          var CantidadP = document.getElementById("txtdeseado").value;
+          var PrecioP = document.getElementById("txtprecio").value;
+          var DescuentoP = document.getElementById("txtdescuento").value;
+          var tot = document.getElementById("txttotalvalue").value;
+          var pdeseado = document.getElementById("txtdeseado").value;
 
-        $('#txttotalvalue').val(parseFloat(tot) + parseFloat(productoporcantidad));
-        var bteliminar = `<button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="eliminar()"><i class='fa fa-trash'></i></button>`
+          //esta parte es para calcular el total por producto y total global
+          var productoporcantidad = parseFloat(PrecioP) * parseFloat(pdeseado);
+          $('#txttotalvalue').val(parseFloat(tot) + parseFloat(productoporcantidad));
+          var valortotaltxt = $('#txttotalvalue').val();
+          //fin
+          var bteliminar = `<button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="eliminar('${productoporcantidad}')"><i class='fa fa-trash'></i></button>`
 
-        tablaListado.row.add([
-          idp,
-          NombreP,
-          CantidadP,
-          PrecioP,
-          bteliminar
-        ]).draw(false);
-
+          tablaListado.row.add([
+            idp,
+            NombreP,
+            CantidadP,
+            PrecioP,
+            productoporcantidad,
+            bteliminar
+          ]).draw(false);
+        } else if (stockBool == 0) {
+          alert('No existe esa cantidad de articulos en el inventario');
+        }
       });
 
       // Save the DataTable on the Database
@@ -322,23 +339,46 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
           success: function(data) {
             console.log(objDatosColumna);
             alert(data);
-            // reloadpage();
+            reloadpage();
 
           }
         });
       });
     });
 
+    // Validamos si la cantidad deseada es superior al stock
+    function maxItem(e) {
+      e.preventDefault();
+      deseado = $('#txtdeseado')[0].value;
+      max = $('#txtcantidad')[0].value;
+      deseadoInt = parseInt(deseado, 10);
+      maxInt = parseInt(max, 10);
+
+      if (deseadoInt < maxInt) {
+        stockBool = 1;
+      } else if (deseadoInt > maxInt) {
+        stockBool = 0;
+      }
+    }
+
     // Delete function
     // Eliminamos el elemento padre del boton > [Tabla]
-    function eliminar() {
+    function eliminar(valortotal) {
       $("#table_productos").on('click', '.btn-danger', function(e) {
         e.preventDefault();
         tablaListado
           .row($(this).parents('tr'))
           .remove()
           .draw();
+
       });
+
+
+      var valortotaltxt2 = $('#txttotalvalue').val();
+      $('#txttotalvalue').val(parseFloat(valortotaltxt2) - parseFloat(valortotal));
+      console.log(valortotaltxt2);
+
+
     }
 
     function reloadpage() {

@@ -6,14 +6,21 @@ include_once 'conexion.php';
 <html>
 
 <head>
-	<title>eFact: <?php
+	<style>
+		body {
+			background: #dd5e89;
+			background: -webkit-linear-gradient(to left, #dd5e89, #f7bb97);
+			background: linear-gradient(to left, #dd5e89, #f7bb97);
+			min-height: 100vh;
+		}
+	</style>
 
-					echo $EMPRESA;
-					?></title>
+	<title>eFact: <?php echo $EMPRESA; ?></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="keywords" content="Easy Admin Panel Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+
 	<script type="application/x-javascript">
 		addEventListener("load", function() {
 			setTimeout(hideURLbar, 0);
@@ -23,41 +30,72 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			window.scrollTo(0, 1);
 		}
 	</script>
+
 	<!-- Bootstrap Core CSS -->
 	<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
 	<!-- Custom CSS -->
 	<link href="css/style.css" rel='stylesheet' type='text/css' />
 	<!-- Graph CSS -->
 	<link href="css/font-awesome.css" rel="stylesheet">
+
 	<!-- jQuery -->
+
 	<!-- lined-icons -->
 	<link rel="stylesheet" href="css/icon-font.min.css" type='text/css' />
 	<!-- //lined-icons -->
+
 	<!-- chart -->
 	<script src="js/Chart.js"></script>
 	<!-- //chart -->
+
 	<!--animate-->
 	<link href="css/animate.css" rel="stylesheet" type="text/css" media="all">
 	<script src="js/wow.min.js"></script>
+
 	<script>
 		new WOW().init();
 	</script>
+
 	<!--//end-animate-->
+
 	<!----webfonts--->
 	<link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'>
 	<!---//webfonts--->
+
 	<!-- Meters graphs -->
-	<script src="js/jquery-1.10.2.min.js"></script>
+	<!-- <script src="js/jquery-1.10.2.min.js"></script> -->
+	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 	<!-- Placed js at the end of the document so the pages load faster -->
 	<link rel="shortcut icon" href="images/favicon.png">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 	<!-- Select2 -->
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 
-	<!--DAtatable-->
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
-	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+	<!--Datatable-->
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css" />
+	<script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.6/css/responsive.dataTables.min.css" />
+	<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.dataTables.min.css">
+	<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css">
+	<script type="text/javascript" src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
+
+	<!-- Editor -->
+	<!-- <link rel="stylesheet" type="text/css" href="css/editor.dataTables.css">
+	<script type="text/javascript" src="js/dataTables.editor.js"></script> -->
+
+	<!-- 	<script type="text/javascript" charset="utf8" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></script>
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap.min.css"></script>
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/fixedheader/3.1.7/css/fixedHeader.bootstrap.min.css"></script>
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.6/css/responsive.bootstrap.min.css"></script> -->
 
 </head>
 

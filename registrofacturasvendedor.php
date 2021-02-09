@@ -34,6 +34,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
     </div>
 
     <script>
+        var bteliminar = `<button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="eliminar('')"><i class='fa fa-trash'></i></button>`
         $(document).ready(function() {
 
 
@@ -42,7 +43,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
 
                 "ajax": {
                     "method": "POST",
-                    "url": "registrodefacturasadmindata.php",
+                    "url": "registrofacturasvendedordata.php",
 
                 },
                 "columns": [{
@@ -61,7 +62,9 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
                         "data": "estado"
                     },
                     {
-                        "data": "estado"
+                        "data": null,
+                        "defaultContent": bteliminar,
+                        "targets": -1
                     }
                 ]
             });

@@ -18,7 +18,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
                         <table id="table_facturas" class="table table-bordered  display nowrap" cellspacing="0" width="100%">
                             <thead>
                                 <tr>
-                                    <th>Factura No.</th>
+                                    <th id="facturaID">Factura No.</th>
                                     <th>Fecha</th>
                                     <th>Cliente</th>
                                     <th>Vendedor</th>
@@ -31,23 +31,31 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
                 </div>
             </div>
         </div>
+        <div class="tabla-menu" style="display: none;">
+            <button id="guardarCambios">Guardar cambios</button>
+            <button id="cancelarCambios">Cancelar</button>
+        </div>
     </div>
 
     <script>
-        var bteliminar = `<button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick="eliminar('')"><i class='fa fa-trash'></i></button>`
+        var table;
+        var tablaBtn = document.getElementsByClassName("tabla-menu");
+        var guardar = document.getElementById('guardarCambios'); // Assumes element with id='button'
+        var cancelar = document.getElementById('cancelarCambios'); // Assumes element with id='button'
+
+        var columnID = document.getElementsByClassName('columnID');
+
+        var bteliminar = `<button id='btnEliminar' class='btn btn-danger btn-sm rounded-0' type='button' data-toggle='tooltip' data-placement='top' title='Delete' OnClick=""><i class='fa fa-trash'></i></button>`
         $(document).ready(function() {
-
-
-            var table = $("#table_facturas").DataTable({
+            table = $("#table_facturas").DataTable({
                 pageLength: 10,
-
                 "ajax": {
                     "method": "POST",
                     "url": "registrodefacturasadmindata.php",
-
                 },
                 "columns": [{
-                        "data": "numero"
+                        "data": "numero",
+                        "className": "columnID"
                     },
                     {
                         "data": "fecha"
@@ -68,11 +76,34 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
                     }
                 ]
             });
+        });
+
+        var y;
+
+        $("#table_facturas").on('click', '.btn-danger', function(e) {
+            e.preventDefault();
+            y = table
+                .row($(this).parents('tr'));
+
+            y.remove()
+                .draw();
+
+            tablaBtn[0].style.display = 'block';
+
+            // TODO: Grab Parent element of the button clicked
+            console.log(y)
 
         });
+
+        guardar.addEventListener("click", function() {
+            // TODO: Grab parent element class columnID[].innerText
+        })
+
+        cancelar.addEventListener("click", function() {
+            alert('Cancelado');
+            location.reload();
+        })
     </script>
-
-
 </body>
 
 <?php

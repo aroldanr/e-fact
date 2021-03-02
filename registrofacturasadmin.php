@@ -78,7 +78,7 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
             });
         });
 
-        var y;
+        var user_id, fila, respuesta;
 
         $("#table_facturas").on('click', '.btn-danger', function(e) {
             e.preventDefault();
@@ -91,8 +91,14 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
             tablaBtn[0].style.display = 'block';
 
             // TODO: Grab Parent element of the button clicked
-            console.log(y)
+            fila = $(this);
+            user_id = parseInt($(this).closest('tr').find('td:eq(0)').text());
+            respuesta = confirm("¿Está seguro de borrar el registro " + user_id + "?");
+            console.log(user_id, respuesta)
 
+            if (respuesta == true) {
+                eliminarFactura(user_id);
+            }
         });
 
         guardar.addEventListener("click", function() {
@@ -103,6 +109,10 @@ $mode = isset($_REQUEST['f_mode']) ? $_REQUEST['f_mode'] : "";
             alert('Cancelado');
             location.reload();
         })
+
+        function eliminarFactura(user_id) {
+            console.log(`Esta mierda funciona ${user_id}`)
+        }
     </script>
 </body>
 
